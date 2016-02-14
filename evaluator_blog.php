@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- hi buddy..... this is the rough prototype of our UI....This will change -->
 <html lang="en">
 <head>
   <title>Bootstrap Example</title>
