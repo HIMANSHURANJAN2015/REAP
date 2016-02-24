@@ -43,35 +43,42 @@ function reapify()
 
 function reapify2()
 {
- var c = document.getElementById("prescriptioninfo");
+ var table = document.getElementById("answers");
  var qno = document.getElementById("question_num").value;
- alert(qno);
- var q="What do you mean by openstack ??";
- var a="OpenStack is a free and open-source software platform for cloud computing, mostly deployed as an infrastructure-as-a-service (IaaS). The software platform consists of interrelated components that control hardware pools of processing, storage, and networking resources throughout a data center.";
- 
+ var q = "What do you mean by openstack ??";
+ var a = "OpenStack is a free and open-source software platform for cloud computing, mostly deployed as an infrastructure-as-a-service (IaaS). The software platform consists of interrelated components that control hardware pools of processing, storage, and networking resources throughout a data center.";
+ //var buttons = document.getElementById("buttons");
+ var question = document.getElementById("question");
+ question.style.display = "block";
+ //buttons.style.position = "absolute";
+ //buttons.style.top = question.offsetHeight + "px";
  document.getElementById("qno").innerHTML=q;
  document.getElementById("a1").innerHTML=a;
  var i1=document.createElement("img");
- i1.src="images/1pi12cs059/t112cs4051.jpg";
- i1.height="500";
- i1.width="800";
- c.appendChild(i1);
- c.appendChild(document.createElement("br"));
- c.appendChild(document.createElement("br"));
- var i2=document.createElement("img");
- i2.src="images/1pi12cs059/t112cs4052.jpg";
- i2.height="500";
- i2.width="800";
- c.appendChild(i2);
- c.appendChild(document.createElement("br"));
- c.appendChild(document.createElement("br"));
- var i3=document.createElement("img");
- i3.src="images/1pi12cs059/t112cs4053.jpg";
- i3.height="500";
- i3.width="800";
- c.appendChild(i3);
- c.appendChild(document.createElement("br"));
- c.appendChild(document.createElement("br"));
- 
- 
+ //make a xhr call to getImageURL.php and return URLs in JSON format
+ result = new Array("images/1pi12cs059/t112cs4051.jpg","images/1pi12cs059/t112cs4052.jpg","images/1pi12cs059/t112cs4053.jpg");
+ var i;
+ for (i = 0; i < result.length; i++)
+ {
+ 	image = document.createElement("img");
+ 	image.src = result[i];
+ 	image.height = "500";
+ 	image.width = "700";
+ 	tr = document.createElement("tr");
+ 	td = document.createElement("td");	
+ 	td.appendChild(image);
+ 	tr.appendChild(td);
+ 	td = document.createElement("td");
+ 	comments = document.createElement("input");
+ 	comments.type = "textarea"; comments.placeholder = "Comments";
+ 	comments.rows = "50";
+ 	td.appendChild(comments);
+ 	tr.appendChild(td);
+ 	td = document.createElement("td");
+ 	marks = document.createElement("input");
+ 	marks.type = "text"; marks.placeholder = "Marks";
+ 	td.appendChild(marks);
+ 	tr.appendChild(td);
+ 	table.appendChild(tr);
+ }
 }

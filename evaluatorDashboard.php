@@ -62,7 +62,7 @@
 							<li id="link1" class="active"><a data-toggle="tab" href="#Patient_homepage">Home Page</a></li>
 							<li id="link2" ><a data-toggle="tab" href="#History">History</a></li>
 							<li id="link3"><a data-toggle="tab" href="#Admit_info">Pending Queue</a></li>
-							<li id="link4"><a data-toggle="tab" href="#Prescription">Evaluation</a></li>
+							<li id="link4"><a data-toggle = "tab" href="#evaluation">Evaluation</a></li>
 							<li id="link6"><a data-toggle="tab" href="#Appointment">View Statistics</a></li>
 							<li id="link7"><a data-toggle="tab" href="#Viewdocap" >Upload answer</a></li>
 							<li id="link7"><a data-toggle="tab" href="#Viewdocap" >Report an issue </a></li>
@@ -85,7 +85,7 @@
 									<a onclick="nav_set(2);fun_payment();stopit();" data-toggle="tab" href="#History" ><img src="images/evaluator/history.png" height="150px"></img></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 									<a onclick="nav_set(8);stopit();" data-toggle="tab" href="#Viewdocap"><img src="images/evaluator/queue1.jpg" height="150px"></img></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
 									<a onclick="nav_set(6);fun_appointment();stopit();" data-toggle="tab" href="#Appointment"><img src="images/evaluator/evaluation2.jpg" height="150px"></img></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-									<a onclick="nav_set(4);fun_prescription();stopit();" data-toggle="tab" href="#Prescription" ><img src="images/evaluator/statistics1.jpg" height="150px"></img></a>
+									<a onclick="nav_set(4);fun_prescription();stopit();" data-toggle="tab" href="#evaluation" ><img src="images/evaluator/statistics1.jpg" height="150px"></img></a>
 									<br><br>
 								</ul>  
 							</div>
@@ -186,6 +186,37 @@
 						</div>
 						
 					</div>
+
+
+
+	<div id="evaluation">
+		<div id = "question" style = "position:fixed;overflow-y:scroll;background-color:cyan;display:none;">
+			<h4 id="qno"></h4>
+			<p id="a1"></p>
+		</div>	<br><br><br><br><br><br><br><br>
+		<div id = "buttons">								    
+			<form role="form" action="" method="POST">
+				<div class="form-group">
+					<label>Question_num:
+						<input type="text" class="form-control" name="profile_name" id="question_num" value="" >
+					</label>
+						<input type="button" onclick="reapify2()" value="go" />
+				</div>
+			</form>		
+		</div>
+		<table id = "answers">
+			<col width = "700">
+			<col width = "100">
+			<col width = "100">
+			<tr>
+			<th>ANSWERS</th>
+			<th>COMMENTS</th>
+			<th>MARKS</th>
+			</tr>
+		</table>
+			
+		
+	</div>
 					<!-- ################################ ADMIT INFORMATION- ROOM NO AND NURSES ######TAB-3#######################-->
 					<!--   @admitinfo-->
 					<div id="Admit_info" class="tab-pane fade">
@@ -213,11 +244,13 @@
 												<th>Image</th>
 												
 											</tr>
-											</thead>
-											<tbody id="roombody"></tbody>
-										</table>
-									</div>
+										</thead>
+										<tbody id="roombody">
+											
+										</tbody>
+									</table>
 								</div>
+							</div>
 								<!--##########################################################Form for people attended #############################-->
 								<div id="attended" class="tab-pane fade">
 									<div class="mylist" width="300px">
@@ -226,58 +259,14 @@
 											<!--  code to be appended by javascript-->											
 										</ul>
 									</div>
-									</div>
+								</div>
 
 								</div>
 							</div>
-				 <!--############################ Displays prescriptions and reports ### tab-4#######-->
-					<!-- @ view prescription-->	
-					<div id="Prescription" class="tab-pane fade">
-						<h1 class="sub-header" >Start Evaluation </h1><br>
-						<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<!---- modal --->
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<h4 class="modal-title" id="myModalLabel">Prescription</h4>
-											</div>
-											<div class="modal-body" id="modal-display1">
-												<p>  prescription body  </p>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-											</div>
-										</div>
-								     </div>
-							</div>
-						<!-- for tabs -->
-							<ul class="nav nav-pills">
-								<li class="active"><a data-toggle="tab" href="#prescriptioninfo" onclick="fun_prescription()"><span class="glyphicon glyphicon-th-list"></span> Current Tasks</a></li>
-								<li><a data-toggle="tab" href="#reports" onclick="fun_reports() "><span class="glyphicon glyphicon-th-list"></span> Filters</a></li>
-							</ul>
-							
-						<div class="tab-content">
-								<div id="prescriptioninfo" class="tab-pane fade in active">
-									<h3><span class="label label-success">Your Current Answer Scripts.</span></h3>
-								    
-									<form role="form" action="" method="POST">
-										<div class="form-group">
-											<label for="profile_name">Question_num:</label>
-											<input type="text" class="form-control" name="profile_name" id="question_num" value="" >
-											<input type="button" onclick="reapify2()" value="go" />
-										</div>
-									</form>	
-									<div class="jumbotron">
-										  <h1 id="qno"></h1>
-										  <p id="a1"></p>
-								    </div>
-									
-									
-											
-											
-										
-								</div>
+				 
+				
+				
+			
 					
 								
 								<div id="reports" class="tab-pane fade">
@@ -298,9 +287,7 @@
 										</table>
 									</div>			
 								</div>
-						</div>
-								
-					</div>
+						
 				<!-- #################### PROFILE MANAGE ########TAB-5#########################-->
 					<!--  @profile-->
 					<div id="Profile" class="tab-pane fade">
