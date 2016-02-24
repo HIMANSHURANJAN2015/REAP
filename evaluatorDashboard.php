@@ -1,3 +1,7 @@
+<?php
+session_start();
+$name = $_SESSION["name"];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,7 +44,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="patient.php">Evaluator Dashboard</a></li>
+					<li><a href="patient.php"><?php echo $name; ?></a></li>
 					<li><a href="login.html">LogOut</a></li>
 				</ul>
 				
@@ -50,7 +54,7 @@
     </nav>
 	<!-- ############end of top navigation bar #############-->
 	<!-- start of side Navigation bar and Place holder-->
-    <div class="container-fluid">
+    <div id = "verticalnav" class="container-fluid">
 		<div class="row">
 			<!--Side Navigation Bar-->
 			<div class="col-sm-3 col-md-2 sidebar">
