@@ -5,9 +5,6 @@ $type = $_POST['role'];
 $email = $_POST['inputEmail'];
 $password = $_POST['inputPassword'];
 #var_dump($_POST);
-#echo($type);
-#echo($email);
-#echo($password);
 
 if (!$conn = mysql_connect("localhost", "root", "paswrd")) {
     die('Error : Could not connect to database, Database may not exist or you do not have access to it');

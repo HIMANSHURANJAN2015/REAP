@@ -44,41 +44,77 @@ function reapify()
 function reapify2()
 {
  var table = document.getElementById("answers");
+ table.style.display = "block";
  var qno = document.getElementById("question_num").value;
- var q = "What do you mean by openstack ??";
- var a = "OpenStack is a free and open-source software platform for cloud computing, mostly deployed as an infrastructure-as-a-service (IaaS). The software platform consists of interrelated components that control hardware pools of processing, storage, and networking resources throughout a data center.";
- //var buttons = document.getElementById("buttons");
- var question = document.getElementById("question");
- question.style.display = "block";
- //buttons.style.position = "absolute";
- //buttons.style.top = question.offsetHeight + "px";
- document.getElementById("qno").innerHTML=q;
- document.getElementById("a1").innerHTML=a;
- var i1=document.createElement("img");
- //make a xhr call to getImageURL.php and return URLs in JSON format
- result = new Array("images/1pi12cs059/t112cs4051.jpg","images/1pi12cs059/t112cs4052.jpg","images/1pi12cs059/t112cs4053.jpg");
- var i;
- for (i = 0; i < result.length; i++)
+ var valid = validate_question_no(qno);
+ if(!valid)
  {
- 	image = document.createElement("img");
- 	image.src = result[i];
- 	image.height = "500";
- 	image.width = "700";
- 	tr = document.createElement("tr");
- 	td = document.createElement("td");	
- 	td.appendChild(image);
- 	tr.appendChild(td);
- 	td = document.createElement("td");
- 	comments = document.createElement("input");
- 	comments.type = "textarea"; comments.placeholder = "Comments";
- 	comments.rows = "50";
- 	td.appendChild(comments);
- 	tr.appendChild(td);
- 	td = document.createElement("td");
- 	marks = document.createElement("input");
- 	marks.type = "text"; marks.placeholder = "Marks";
- 	td.appendChild(marks);
- 	tr.appendChild(td);
- 	table.appendChild(tr);
+ 	alert("Invalid Question Number");
+ 	return;
  }
+ else
+ {
+ 	result = getQuestionAndAnswer(qp_id,qno);
+ 	var q = result[0];
+ 	var a = result[1];
+ 	//var buttons = document.getElementById("buttons");
+ 	var question = document.getElementById("question");
+ 	question.style.display = "block";
+ 	//buttons.style.position = "absolute";
+ 	//buttons.style.top = question.offsetHeight + "px";
+ 	document.getElementById("qno").innerHTML = q;
+ 	document.getElementById("a1").innerHTML = a;
+ 	var i1 = document.createElement("img");
+ 	//make a xhr call to getImageURL.php and return URLs in JSON format
+ 	result = new Array("images/1pi12cs059/t112cs4051.jpg","images/1pi12cs059/t112cs4052.jpg","images/1pi12cs059/t112cs4053.jpg");
+ 	var i;
+ 	for (i = 0; i < result.length; i++)
+ 	{
+ 		image = document.createElement("img");
+ 		image.src = result[i];
+ 		image.height = "500";
+ 		image.width = "700";
+ 		tr = document.createElement("tr");
+ 		td = document.createElement("td");	
+ 		td.appendChild(image);
+ 		tr.appendChild(td);
+ 		td = document.createElement("td");
+ 		comments = document.createElement("textarea");
+ 		comments.placeholder = "Comments";
+ 		comments.rows = "20"; comments.cols = "38";
+ 		td.appendChild(comments);
+ 		//tr.appendChild(td);
+ 		//td = document.createElement("td");
+ 		marks = document.createElement("input");
+ 		marks.type = "text"; marks.placeholder = "Marks";
+ 		td.appendChild(marks);
+ 		tr.appendChild(td);
+ 		table.appendChild(tr);
+ 	}
+ }
+}
+
+function validate_question_no(qno)
+{
+	if(qno.length > 0 && qno.length < 3 && !isNaN(qno[0]) && qno[1].match([a-zA-Z]))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function getQuestionAndAnswer(qp_id,qno)
+{
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function.success{
+		if(xhr.readyState == 4 && xhr.status == 200)
+		{
+			return(JSON.parse(xhr.responseText));
+		}
+	};
+	xhr.open("GET","http://localhost/REAP/question_and_answer.php?qp_id="+qp_id+"qno"+qno);
+	xhr.send();
 }

@@ -208,18 +208,14 @@ $name = $_SESSION["name"];
 				</div>
 			</form>		
 		</div>
-		<table id = "answers">
+		<table id = "answers" style = "display:none;">
 			<col width = "700">
-			<col width = "100">
-			<col width = "100">
+			<col width = "200">			
 			<tr>
-			<th>ANSWERS</th>
-			<th>COMMENTS</th>
-			<th>MARKS</th>
+				<th>ANSWERS</th>
+				<th>COMMENTS AND MARKS</th>
 			</tr>
-		</table>
-			
-		
+		</table>					
 	</div>
 					<!-- ################################ ADMIT INFORMATION- ROOM NO AND NURSES ######TAB-3#######################-->
 					<!--   @admitinfo-->
