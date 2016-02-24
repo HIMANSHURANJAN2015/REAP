@@ -43,8 +43,8 @@ function reapify()
 
 function reapify2()
 {
- var c=document.getElementById("prescriptioninfo");
- var qno=document.getElementById("question_num").value;
+ var c = document.getElementById("prescriptioninfo");
+ var qno = document.getElementById("question_num").value;
  alert(qno);
  var q="What do you mean by openstack ??";
  var a="OpenStack is a free and open-source software platform for cloud computing, mostly deployed as an infrastructure-as-a-service (IaaS). The software platform consists of interrelated components that control hardware pools of processing, storage, and networking resources throughout a data center.";

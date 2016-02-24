@@ -41,7 +41,7 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="patient.php">Evaluator Dashboard</a></li>
-					<li><a href="Login.html">LogOut</a></li>
+					<li><a href="login.html">LogOut</a></li>
 				</ul>
 				
           
@@ -249,7 +249,7 @@
 												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 											</div>
 										</div>
-								</div>
+								     </div>
 							</div>
 						<!-- for tabs -->
 							<ul class="nav nav-pills">
