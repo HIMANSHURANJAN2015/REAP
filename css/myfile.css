@@ -7,7 +7,10 @@ body {
   padding-top: 50px;
 }
 
-
+/* question and expected answer must appear above the images and text box */
+div#outerdiv{
+  z-index: -1;
+}
 /*
  * Global add-ons
  */
@@ -109,4 +112,23 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+#fullscreen {
+  width: 100%;
+  display: none;
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+   /* I made a 50% opacity black tile background for this 
+      div so it would seem more... modal-y*/
+}
+
+#fullscreen img {
+  display: block;
+  height: 100%;
+  width : 100%;
+  margin: 0 auto;
 }

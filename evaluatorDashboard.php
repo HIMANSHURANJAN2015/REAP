@@ -1,6 +1,13 @@
 <?php
 session_start();
-$name = $_SESSION["name"];
+if(isset($_SESSION["name"]))
+{
+	$name = $_SESSION["name"];
+}
+else
+{
+	header('Location:login.html');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,14 +51,16 @@ $name = $_SESSION["name"];
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="patient.php"><?php echo $name; ?></a></li>
-					<li><a href="login.html">LogOut</a></li>
+					<li><a href="#"><?php echo $name; ?></a></li>
+					<li><a href="login.html" onclick = "session_destroy()">LogOut</a></li>
 				</ul>
 				
           
 			</div>
 		</div>
     </nav>
+    <!-- Make this div block when u logout so that php session is set to empty array -->
+    <div id = "sessionDestroy" style="display:none;"><?php $_SESSION = array(); ?></div>
 	<!-- ############end of top navigation bar #############-->
 	<!-- start of side Navigation bar and Place holder-->
     <div id = "verticalnav" class="container-fluid">
@@ -100,10 +109,9 @@ $name = $_SESSION["name"];
 									<h3><span class="label label-success"> TOP 5 HEALTH TIPS.</span></h3>
 									<br />
 									<div align="center" class="embed-responsive embed-responsive-16by9">
-										<video id="myvideo1" controls="controls" autoplay class="embed-responsive-item">
-										<source src=heart.mp4 type=video/mp4>
-										<source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>
-										</video>
+										
+							
+				
 									</div>
 								</div>
 								<!-- ### Notice Board which will display the list of appointments and reports that have come ########-->
@@ -193,11 +201,12 @@ $name = $_SESSION["name"];
 
 
 
-	<div id="evaluation">
-		<div id = "question" style = "position:fixed;overflow-y:scroll;background-color:cyan;display:none;">
+	<div id="evaluation" class="tab-pane fade">
+		<div id = "question" style = "position:fixed;overflow:scroll;background-color:cyan;display:none;">
 			<h4 id="qno"></h4>
 			<p id="a1"></p>
-		</div>	<br><br><br><br><br><br><br><br>
+		</div>
+		<div id = "outerdiv">	
 		<div id = "buttons">								    
 			<form role="form" action="" method="POST">
 				<div class="form-group">
@@ -215,7 +224,11 @@ $name = $_SESSION["name"];
 				<th>ANSWERS</th>
 				<th>COMMENTS AND MARKS</th>
 			</tr>
-		</table>					
+		</table>
+		</div>
+		<div id = "fullscreen">
+			<img/>
+		</div>					
 	</div>
 					<!-- ################################ ADMIT INFORMATION- ROOM NO AND NURSES ######TAB-3#######################-->
 					<!--   @admitinfo-->
