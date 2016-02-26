@@ -75,7 +75,7 @@ function validate_question_no(qno)
 {
 	if(qno.length > 1 && qno.length < 3)
 	{
-		if(!isNaN(qno[0]) && qno[1].match(/[a-zA-Z]/))
+		if(!isNaN(qno[0]) && qno[1].match(/[a-eA-E]/))
 			return true;
 		else
 			return false;
@@ -137,9 +137,8 @@ function fillTable(result,table)
 function fullscreenMode(event)
 {
 	var image_id = event.target.id; 
-	//$('#fullscreen').css('width', $('document').outerWidth() + 'px');
+	$('#fullscreen').css('width', $('document').innerWidth() + 'px');
 	var src = event.target.src; //get the source attribute of the clicked image
-	alert(src);
     $('#fullscreen img').attr('src', src); //assign it to the tag for your fullscreen div
     $('#fullscreen').fadeIn();
                 
@@ -153,4 +152,29 @@ function session_destroy(event)
 	//event.preventDefault();
 	div = document.getElementById("sessionDestroy");
 	div.style.display = "block";
+}
+
+function history()
+{
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = showHistory;
+	xhr.open("GET","http://localhost/REAP/get_history.php",true);
+	xhr.send();
+}
+
+function showHistory()
+{
+	if(xhr.readyState == 4 && xhr.status == 200)
+	{
+		var result = JSON.parse(xhr.responseText); 
+		var outerdiv = document.getElementById("history");
+		var i;
+		for(i = 0; i < result.length; i++)
+		{			
+			var innerdiv = document.createElement("div");
+			innerdiv.innerHTML = "Bundle : " + result[i];
+			outerdiv.appendChild(innerdiv);
+		}
+		
+	}
 }

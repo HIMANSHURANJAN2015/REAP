@@ -16,7 +16,7 @@ if (!$db = mysql_select_db('REAP')) {
 
 if($type == "Evaluator")
 {
-	if(!$result = mysql_query("SELECT password,eval_first_name,eval_last_name from evaluator where eval_email = '$email';"))
+	if(!$result = mysql_query("SELECT password,eval_email,eval_first_name,eval_last_name from evaluator where eval_email = '$email';"))
 	{
 		die("Error : Could not query the database");
 	}
@@ -39,7 +39,8 @@ $row = mysql_fetch_row($result);
 
 if($row[0] == $password)
 {
-	$_SESSION["name"] = $row[1] . " " . $row[2];
+	$_SESSION["name"] = $row[2] . " " . $row[3];
+	$_SESSION["email"] = $row[1];
 	if($type == "Evaluator")
 	{
 		header("Location:evaluatorDashboard.php");

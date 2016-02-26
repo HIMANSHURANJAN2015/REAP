@@ -169,35 +169,34 @@ else
 						</div> 
 					<!-- ######### STARTING OF HISTORY TAB CONTENT- PAYMENT and treatment ##TAB-2########## -->
 					<!--    @HISTORY BOTH-->
-					<div id="History" class="tab-pane fade">
-						<h1 class="sub-header" >Your History</h1><br>
-						<ul class="nav nav-pills">
-							<li class="active">
-								<a data-toggle="tab" href="#payment_history" onclick="fun_admitroom()">
-									<span class="glyphicon glyphicon-th-list"></span> PAPERS CORRECTED
-								</a>
-							</li>
-							<li>
-								<a data-toggle="tab" href="#operation_history" onclick="fun_attended()">
-									<span class="glyphicon glyphicon-th-list"></span>Another TAB
-								</a>
-							</li>
-						</ul>
+	<div id="History" class="tab-pane fade">
+		<h1 class="sub-header" >Your History</h1><br>
+		<ul class="nav nav-pills">
+			<li class="active">
+				<a data-toggle="tab" href="#history" onclick="history()">
+				<span class="glyphicon glyphicon-th-list"></span> PAPERS CORRECTED
+				</a>
+			</li>
+			<li>
+				<a data-toggle="tab" href="#operation_history" onclick="">
+				<span class="glyphicon glyphicon-th-list"></span>Another TAB
+				</a>
+			</li>
+		</ul>
 
-						<div class="tab-content">
-							<br />
-							<!-- ################ SHOWS ROOM RELATED INFORMATION ####  internal tab 1 #######-->
-							<div id="payment_history" class="tab-pane fade in active">
-								1	
-							</div>
-								<!--##################Form for people attended #############################-->
-							<div id="operation_history" class="tab-pane fade">
-								2	
-						    </div>
-
-						</div>
+		<div class="tab-content">
+		<br />
+		<!-- ################ SHOWS ROOM RELATED INFORMATION ####  internal tab 1 #######-->
+			<div id="history" class="tab-pane fade in active">
+			
+			</div>
+			<!--##################Form for people attended #############################-->
+			<div id="operation_history" class="tab-pane fade">
+			2	
+		    </div>
+		</div>
 						
-					</div>
+	</div>
 
 
 
@@ -217,6 +216,7 @@ else
 				</div>
 			</form>		
 		</div>
+
 		<table id = "answers" style = "display:none;">
 			<col width = "700">
 			<col width = "200">			
