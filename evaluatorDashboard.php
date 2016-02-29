@@ -1,13 +1,14 @@
 <?php
-session_start();
+/*session_start();
 if(isset($_SESSION["name"]))
 {
 	$name = $_SESSION["name"];
+	$eval_email = $_SESSION["email"];
 }
 else
 {
 	header('Location:login.html');
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +52,7 @@ else
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><?php echo $name; ?></a></li>
+					<li><a href="#"><?/*php echo $name;*/ ?></a></li>
 					<li><a href="login.html" onclick = "session_destroy()">LogOut</a></li>
 				</ul>
 				
@@ -169,6 +170,7 @@ else
 						</div> 
 					<!-- ######### STARTING OF HISTORY TAB CONTENT- PAYMENT and treatment ##TAB-2########## -->
 					<!--    @HISTORY BOTH-->
+
 	<div id="History" class="tab-pane fade">
 		<h1 class="sub-header" >Your History</h1><br>
 		<ul class="nav nav-pills">
@@ -188,12 +190,29 @@ else
 		<br />
 		<!-- ################ SHOWS ROOM RELATED INFORMATION ####  internal tab 1 #######-->
 			<div id="history" class="tab-pane fade in active">
-			
-			</div>
+				<table id = "historyTable" style = "display:none;">
+					<col width="200">
+					<col width="200">
+					<col width="200">
+					<col width="200">
+					<col width="200">
+					<col width="200">
+					<col width="200">
+					<tr>
+						<th>Subject Code</th>
+						<th>Exam Type</th>					
+						<th>Test Date</th>
+						<th>Test Time</th>
+						<th>Max Marks</th>
+						<th>Answers Pending</th>
+						<th>Total Answers</th>
+					</tr>
+				</table></div>
 			<!--##################Form for people attended #############################-->
 			<div id="operation_history" class="tab-pane fade">
 			2	
 		    </div>
+		    <div id = "evalEmail" class ="tab-pane fade" style = "display:none;"><?php echo "kumaradhara@gmail.com"; ?></div>
 		</div>
 						
 	</div>

@@ -62,7 +62,7 @@ function reapify2()
  else
  {
  	xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = getResult;
+	xhr.onreadystatechange = getQAndA;
 	xhr.open("GET","http://localhost/REAP/question_and_answer.php?qp_id="+1+"&qno="+qno,false);
 	xhr.send();	
  	//make a xhr call to getImageURL.php and return URLs in JSON format
@@ -89,7 +89,7 @@ function validate_question_no(qno)
 		return false;
 }
 
-function getResult()
+function getQAndA()
 {
 	if(xhr.readyState == 4 && xhr.status == 200)
 	{
@@ -156,9 +156,10 @@ function session_destroy(event)
 
 function history()
 {
+	var evalEmail = document.getElementById("evalEmail");
 	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = showHistory;
-	xhr.open("GET","http://localhost/REAP/get_history.php",true);
+	xhr.open("GET","http://localhost/REAP/get_history.php?eval_email="+evalEmail.innerHTML,true);
 	xhr.send();
 }
 
@@ -167,14 +168,18 @@ function showHistory()
 	if(xhr.readyState == 4 && xhr.status == 200)
 	{
 		var result = JSON.parse(xhr.responseText); 
-		var outerdiv = document.getElementById("history");
-		var i;
-		for(i = 0; i < result.length; i++)
-		{			
-			var innerdiv = document.createElement("div");
-			innerdiv.innerHTML = "Bundle : " + result[i];
-			outerdiv.appendChild(innerdiv);
-		}
-		
+		var table = document.getElementById("historyTable");
+		table.style.display = "block";
+		for(var i = 0; i < result.length; i++)
+		{		
+			tr = document.createElement("tr");		
+			for (var j = 0; j < result[i].length; j++) 
+			{
+				td = document.createElement("td");
+				td.innerHTML = result[i][j];
+				tr.appendChild(td);
+			}		
+			table.appendChild(tr);				
+		}		
 	}
 }
