@@ -1,0 +1,10 @@
+{
+ "examType":["t1","s2","s3","s4"],
+ "mysql_username":"root",
+ "mysql_password":"paswrd",
+ "extracted_images_path":"/var/www/html/REAP/extractedImages",
+ "image_extension":".jpg",
+ "scanned_images_source_path":"/var/www/html/REAP/imageProcessing/inputScannedImages",	
+ "subject_code":["12CS401","12CS402","12CS403","12CS404","12CS405","12CS406"],
+ "year":"2016"
+}

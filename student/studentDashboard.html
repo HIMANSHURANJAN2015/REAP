@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="HimanshuRanjan">
+    <link rel="icon" href="../staticFiles/paper.ico">
+    <title>Student Dashboard</title>
+  <!-- Our core javascripts -->
+  <style type="text/css">
+label{
+	display : block;
+	width : 100px;
+}
+
+#fullscreen {
+  width: 100%;
+  display: none;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  overflow: scroll;
+   /* I made a 50% opacity black tile background for this 
+      div so it would seem more... modal-y*/
+}
+
+#fullscreen img {
+  display: block;
+  position:absolute;
+  top:50px;
+  left:200px;
+  /*margin: 0 auto;*/
+}
+
+td:hover img {
+  -moz-transform: scale(2.1);
+  -webkit-transform: scale(2.1);
+  transform: scale(2.1);
+}
+  </style>
+  <script type="text/javascript" src="../staticFiles/studentReap.js"></script>
+  <link href="../staticFiles/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../staticFiles/css/myfile.css" rel="stylesheet">
+  <script src="../staticFiles/assets/js/ie-emulation-modes-warning.js"></script>
+  <!--This is to Enable Tabbing Action-->
+  <link rel="stylesheet" href="../staticFiles/dist/css/bootstrap-theme.min.css">
+  <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
+  <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
+ </head>
+<body onload="loadSubjects()">
+  <!--navigation bar-->
+  <!-- THe following code will be for horizontal navigation bar at the top of the page -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="#">Student</a>
+  </div>
+  <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"></a></li>
+        <li><a href="http://localhost/REAP/login.html" onclick = "session_destroy()">LogOut</a></li>
+      </ul>
+  </div>
+</div>
+ </nav>
+    <!-- Make this div block when u logout so that php session is set to empty array -->
+    <div id = "sessionDestroy" style="display:none;"></div>
+  <!-- ############end of top navigation bar #############-->
+  <!-- start of side Navigation bar and Place holder-->
+    <div id = "verticalnav" class="container-fluid">
+    <div class="row">
+      <!--Side Navigation Bar-->
+      <div class="col-sm-3 col-md-2 sidebar">
+        <!--Profile pic -->
+        <img alt = "No photo found" class="profile-pic" src="../staticFiles/studentImages/neel.jpg" height="200px" />
+        <!--links on side Navigation bar-->
+          <ul class="nav nav-sidebar">
+            <ul class="nav nav-tabs nav-stacked">
+              <li id="link1" class="active"><a data-toggle="tab" href="#evaluatorHomepage">Home Page</a></li>
+            </ul>
+          </ul> 
+      </div>
+<!--############## end of left navigation bar ################-->
+      <!--Rest of Front page This has our entire logic -->
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="tab-content">
+        <!-- #################### TAB-1 HOMEPAGE ####################-->
+          <div id="evaluatorHomepage" class="tab-pane fade in active">
+            <!--Header of the page for this module Doctor Dashboard-->
+           
+              <!--Place Holders-->
+              <div class="table-subject" id = "outerSubject">
+                <div>
+                  <LABEL>Subject :</LABEL><select id = "subjects"></select>  
+                </div>
+                <br>
+                <div>
+                  <label>Exam Type:</label><select id = "exam_type">
+                  <option value="None">-----------</option>
+                  <option value = "t1">T1</option>
+                  <!--<option value = "t1">T2</option>
+                  < option value = "t1">T3</option>
+                  <option value = "SEE">SEE</option>-->	
+                  </select>
+                </div>
+                <input type = "button" value ="GO" onclick="fetch()"/>
+              </div>
+                <div id = "subjectCode" style = "display:none;"></div>
+                <br><br>
+                <table border = "1" id = "answerTable" style="display:none;">
+                  <col width = "100">
+                  <col width = "300">
+                  <col width = "300">
+                  <col width = "300">
+                  <col width = "100">
+                  <col width = "40">
+                  <col width = "300">
+                  <col width = "100">
+                  <thead>
+                    <th>Ques No</th>
+                    <th>Question</th>
+                    <th>Expected Answer</th>
+                    <th>Your Answer</th>
+                    <th>Evaluator</th>
+                    <th>Marks</th>
+                    <th>Comments</th>
+                    <th>Report</th>
+                  </thead>
+                  <tbody id = "answerTableBody"></tbody>
+                </table>
+                <br><br><br><br><br>
+          </div>
+        </div>
+      </div>        
+              <div id = "fullscreen">
+                  <img/>
+                </div>
+                <!-- ########################### VIDEO #####################################-->
+<div class="container">
+      
+      <!-- Trigger the modal with a button -->
+      <!--
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#commentModal">Open Modal</button>
+      -->
+    <!-- Modal -->
+      <div class="modal fade" id="reportModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+          <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" onclick="saveComments">&times;</button>
+                  <h4 class="modal-title">ENTER ISSUE </h4>
+                </div>
+                <div class="modal-body">
+                  <label for="comment">Challenge:</label>
+                  <textarea id = "comments" class="form-control" rows="5" id="commentText"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="saveReport()">Save</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+<br>      
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
+  <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
+    <script src="../staticFiles/assets/js/docs.min.js"></script>
+    <script src="../staticFiles/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
