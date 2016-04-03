@@ -7,6 +7,7 @@ var usn = "1pi12cs015";
 var qn,eval;
 function loadSubjects()
 {
+
     select = document.getElementById("subjects");                
     xhr= new XMLHttpRequest();
     xhr.onreadystatechange = showSubjects;
@@ -80,11 +81,12 @@ function showResult()
         //alert(result[i+1]["question_num"]);
         for(var i = 0; i < result.length-1; i++)
         {
-        	alert(result[i+1]["question_num"]);
+        	//alertify.alert(usn);
+        	//alert(result[i+1]["question_num"]);
         	if(result.length > 1 && (result[i]["question_num"] == result[i+1]["question_num"]) && (i != result.length-1))
 	        {
-	        	alert(result[i]["question_num"]);
-	        	alert("ssup");
+	        	//alert(result[i]["question_num"]);
+	        	//alert("ssup");
 	        	tr = document.createElement("tr");
 	        	td = document.createElement("td");
 	        	qn = result[i]["question_num"];
@@ -277,7 +279,7 @@ function done()
 {
     if(xhrComment.readyState==4 && xhrComment.status==200)
     {    
-        //alert(xhrComment.responseText);
+        alertify.alert(xhrComment.responseText);
         //alert("tana");
         //console.log("dhawaan");
         
@@ -300,7 +302,7 @@ function done2()
 {
     if(xhrMail.readyState==4 && xhrMail.status==200)
         { 
-            alert("email sent to evaluator");
+            alertify.alert("email sent to evaluator");
         }    
 }       
 

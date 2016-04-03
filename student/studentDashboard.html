@@ -8,52 +8,55 @@
     <meta name="author" content="HimanshuRanjan">
     <link rel="icon" href="../staticFiles/paper.ico">
     <title>Student Dashboard</title>
-  <!-- Our core javascripts -->
-  <style type="text/css">
-label{
-	display : block;
-	width : 100px;
-}
-table{
-  border: 1px black;
-}
+    <style type="text/css">
+      label{
+      	display : block;
+      	width : 100px;
+      }
+      table{
+        border: 1px black;
+      }
 
-#fullscreen {
-  width: 100%;
-  display: none;
-  position:absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
-  overflow: scroll;
-   /* I made a 50% opacity black tile background for this 
-      div so it would seem more... modal-y*/
-}
+      #fullscreen {
+        width: 100%;
+        display: none;
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        overflow: scroll;
+         /* I made a 50% opacity black tile background for this 
+            div so it would seem more... modal-y*/
+      }
 
-#fullscreen img {
-  display: block;
-  position:absolute;
-  top:50px;
-  left:200px;
-  /*margin: 0 auto;*/
-}
-/*
-td:hover img {
-  -moz-transform: scale(2.1);
-  -webkit-transform: scale(2.1);
-  transform: scale(2.1);
-}*/
-  </style>
-  <script type="text/javascript" src="../staticFiles/studentReap.js"></script>
-  <link href="../staticFiles/dist/css/bootstrap.min.css" rel="stylesheet">
+      #fullscreen img {
+        display: block;
+        position:absolute;
+        top:50px;
+        left:200px;
+        /*margin: 0 auto;*/
+      }
+      /*
+      td:hover img {
+        -moz-transform: scale(2.1);
+        -webkit-transform: scale(2.1);
+        transform: scale(2.1);
+      }*/
+    </style>
+    <script type="text/javascript" src="../staticFiles/studentReap.js?x=<?php echo rand(0,100) ?>"></script>
+    <link href="../staticFiles/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../staticFiles/css/myfile.css" rel="stylesheet">
-  <script src="../staticFiles/assets/js/ie-emulation-modes-warning.js"></script>
-  <!--This is to Enable Tabbing Action-->
-  <link rel="stylesheet" href="../staticFiles/dist/css/bootstrap-theme.min.css">
-  <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
-  <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
-</script>
+    <script src="../staticFiles/assets/js/ie-emulation-modes-warning.js"></script>
+    <!--This is to Enable Tabbing Action-->
+    <link rel="stylesheet" href="../staticFiles/dist/css/bootstrap-theme.min.css">
+    <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
+    <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
+    <!--alertify -->
+    <link rel="stylesheet" href="../staticFiles/alertify/themes/alertify.core.css" />
+    <link rel="stylesheet" href="../staticFiles/alertify/themes/alertify.default.css" />
+
+
  </head>
 <body onload="loadSubjects()">
   <!--navigation bar-->
@@ -187,5 +190,6 @@ td:hover img {
   <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
     <script src="../staticFiles/assets/js/docs.min.js"></script>
     <script src="../staticFiles/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../staticFiles/alertify/lib/alertify.min.js"></script>
 </body>
 </html>
