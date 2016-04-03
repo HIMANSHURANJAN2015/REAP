@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="HimanshuRanjan">
+    <link rel="icon" href="../staticFiles/paper.ico">
+    <title>Student Dashboard</title>
+  <!-- Our core javascripts -->
+  <style type="text/css">
+label{
+	display : block;
+	width : 100px;
+}
+  </style>
+  <script type="text/javascript" src="../staticFiles/evaluatorReap.js?x=<?php echo rand(0,100) ?>"></script>
+  <link href="../staticFiles/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../staticFiles/css/myfile.css" rel="stylesheet">
+  <script src="../staticFiles/assets/js/ie-emulation-modes-warning.js"></script>
+  <script>
+  function loadSubjects()
+              {
+                  
+                select = document.getElementById("subjects");
+                
+                var xhr= new XMLHttpRequest();
+                xhr.onreadystatechange= function(){
+                if(xhr.readyState==4 && xhr.status==200)
+                {
+                  select.innerHTML = "";
+                  subject = JSON.parse(xhr.responseText);
+                  //subject =return_data.split(",");
+                  //subject.pop();
+                  var len=subject.length;
+                  var option = document.createElement("option");
+                   	option.innerHTML = "-----------";
+                   	option.value = "None";
+                   	select.appendChild(option);
+                  for(i=0;i<len;i++)
+                  {
+                    var option = document.createElement("option");
+                   	option.innerHTML = subject[i];
+                   	option.value = subject[i];
+                   	select.appendChild(option);
+                  }
+                  /*
+                  select = document.getElementByName("exam_type");
+                  for(i=0;i<len;i++)
+                  {
+                    var option = document.createElement("option");
+                   	option.innerHTML = exam_type[i];
+                   	option.value = exam_type[i];
+                   	select.appendChild(option);
+                  }*/
+                }
+           
+                }
+               
+                xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getSubjects.php?USN=1pi12cs102", true);
+                xhr.send();
+            
+                  
+                
+              
+            }
+  function fetch()
+  {
+       
+       var sub = document.getElementById("subjects");
+       var type = document.getElementById("exam_type");
+       var s = sub.options[sub.selectedIndex].text;
+       var t = type.options[type.selectedIndex].text;
+      // alert("fetch");
+       //alert(s);
+       //alert(t);
+       xhr= new XMLHttpRequest();
+       xhr.onreadystatechange= displayResult;
+        xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getquestionAndAnswers.php?sub_code="+s+"&examtype="+t+"&USN=1pi12cs102", true);
+        xhr.send();   
+
+  }
+  function displayResult()
+  {
+    if(xhr.readyState==4 && xhr.status==200)
+    {
+       result = JSON.parse(xhr.responseText);
+       //alert(result);
+       questions = JSON.parse(result[0]);
+       marks_comments = JSON.parse(result[1]);
+       found = JSON.parse(result[2]);
+       q = JSON.parse(result[3]);
+       image_id = JSON.parse(result[4]);
+       display(questions,marks_comments,found,q,image_id);
+    }
+  }
+
+  function display(questions,marks_comments,found,q,image_id)
+  {
+    for(i=0;i<found.length;i++)
+    {
+      alert(found[i]);
+    /*  for(j in questions)
+      {
+        if(i == j[0])
+        {
+          var ques_id = j[0];
+          question = j[1];
+          answer = j[2];
+          for(k in image_id)
+          {
+            if(k[ques_id])
+            {
+              alert(k[ques_id]);
+            }
+          }
+        }
+      }*/
+      
+    }
+  }
+  </script>
+  <!--This is to Enable Tabbing Action-->
+  <link rel="stylesheet" href="../staticFiles/dist/css/bootstrap-theme.min.css">
+  <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
+  <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
+ </head>
+<body onload="loadSubjects()">
+  <!--navigation bar-->
+  <!-- THe following code will be for horizontal navigation bar at the top of the page -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="#">Evaluator</a>
+  </div>
+  <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"></a></li>
+        <li><a href="http://localhost/REAP/login.html" onclick = "session_destroy()">LogOut</a></li>
+      </ul>
+  </div>
+</div>
+ </nav>
+    <!-- Make this div block when u logout so that php session is set to empty array -->
+    <div id = "sessionDestroy" style="display:none;"></div>
+  <!-- ############end of top navigation bar #############-->
+  <!-- start of side Navigation bar and Place holder-->
+    <div id = "verticalnav" class="container-fluid">
+    <div class="row">
+      <!--Side Navigation Bar-->
+      <div class="col-sm-3 col-md-2 sidebar">
+        <!--Profile pic -->
+        <img class="profile-pic" src="../staticFiles/evaluatorImages/professor.jpg" height="200px" />
+        <!--links on side Navigation bar-->
+          <ul class="nav nav-sidebar">
+            <ul class="nav nav-tabs nav-stacked">
+              <li id="link1" class="active"><a data-toggle="tab" href="#evaluatorHomepage">Home Page</a></li>
+            </ul>
+          </ul> 
+      </div>
+<!--############## end of left navigation bar ################-->
+      <!--Rest of Front page This has our entire logic -->
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="tab-content">
+        <!-- #################### TAB-1 HOMEPAGE ####################-->
+          <div id="evaluatorHomepage" class="tab-pane fade in active">
+            <!--Header of the page for this module Doctor Dashboard-->
+            <h1 class="page-header">Student Dashboard</h1>
+              <!--Place Holders-->
+              <div class="table-subject">
+                <div><LABEL>Subject :</LABEL><select id = "subjects">
+                
+                </select>  
+                </div>
+                <br>
+                <div>
+                <label>Exam Type:</label><select id = "exam_type">
+                <option value="None">-----------</option>
+                <option value = "t1">T1</option>
+                <!--<option value = "t1">T2</option>
+                <option value = "t1">T3</option>
+                <option value = "SEE">SEE</option>-->	
+                </select></div>
+              </div>
+              <br>
+              <br>
+              <input type = "button" value ="GO" onclick="fetch()"/>
+              <div class="row placeholders">
+                <!-- ########################### VIDEO #####################################-->
+              
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
+  <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
+    <script src="../staticFiles/assets/js/docs.min.js"></script>
+    <script src="../staticFiles/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
