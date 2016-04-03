@@ -302,7 +302,7 @@ function done2()
 {
     if(xhrMail.readyState==4 && xhrMail.status==200)
         { 
-            alertify.alert("email sent to evaluator");
+            alertify.alert(xhrMail.responseText);
         }    
 }       
 

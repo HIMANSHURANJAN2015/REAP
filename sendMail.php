@@ -27,7 +27,7 @@ $mail->Password = '';                           // SMTP password
 $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 587;                                    // TCP port to connect to
 
-$mail->setFrom('livelikehimanshu12@gmail.com', 'Mailer');
+$mail->setFrom('livelikehimanshu12@gmail.com', 'REAP AUTOMATED SYSTEM');
 $mail->addAddress($evalEmail, 'Joe User');     // Add a recipient
 $mail->addAddress($evalEmail);               // Name is optional
 $mail->addReplyTo('livelikehimanshu12@gmail.com', 'Information');
@@ -46,5 +46,5 @@ if(!$mail->send()) {
     echo 'Message could not be sent. bad';
     var_dump('Mailer Error: ' . $mail->ErrorInfo);
 } else {
-    echo 'Message has been sent';
+    echo 'Email sent to the concerned Evaluator';
 }
