@@ -457,3 +457,118 @@ function updateResultsTable()
  } 
 
 }
+
+function issueInit()  //for Issue (tab4)
+{
+	var select = document.getElementById("examTypeIssue");
+	updateExamTypeSelect(select);
+	select = document.getElementById("departmentIssue");
+	updateDeptSelect(select);
+	select.onchange = updateSubIssue;
+}
+
+function updateSubIssue(select)
+{
+	var dept = document.getElementById("departmentIssue");
+	var dept_selected = dept.options[dept.selectedIndex].value;
+	var select = document.getElementById("subjectCodeIssue");
+	select.addEventListener("change",updateBundleInfo);
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200)
+		{
+			select.innerHTML = "";
+			var subject = JSON.parse(xhr.responseText);
+			var op = document.createElement("option");
+			op.innerHTML = "Select";
+			select.appendChild(op);
+			for(i = 0; i < subject.length; i++)
+			{
+				var op = document.createElement("option");
+				op.innerHTML = subject[i][0] + "(" + subject[i][1] + ")";
+				op.value = subject[i][0];
+				select.appendChild(op);
+		    }
+		}
+	}
+	xhr.open("GET","http://localhost/REAP/dataFetchingFiles/fetchSubjectCodeByDept.php?dept="+dept_selected,true);
+	xhr.send();
+}
+
+function getErrors()
+{
+	$.ajax({
+        type: "GET",
+        url: "http://localhost/REAP/imageProcessing/error.csv",
+        dataType: "text",
+        success: function(data) {processData(data);}
+        });
+}
+
+function processData(data)
+{
+    var container = document.getElementById("issueContainer");
+    container.style.display = "none";
+    var lines = data.split(/\r\n|\n/);
+
+    //Set up the data arrays
+    var USN = [];
+    var error = [];
+    var imagePath = [];
+
+    var headings = lines[0].split(','); // Splice up the first row to get the headings
+
+    for (var j=1; j<lines.length-1; j++) 
+    {
+        var values = lines[j].split(','); // Split up the comma seperated values
+        // We read the key,1st, 2nd and 3rd rows 
+        USN.push(values[0]); // Read in as string
+        error.push(values[1]);
+        var x = values[2].split("(")[1];
+        x = x.split(")")[0];
+        x = x.replace(/['"]+/g, '');
+        imagePath.push(x);
+    }
+    //alert(imagePath);
+    populateImageIssuesTable(USN,error,imagePath);
+}
+
+function populateImageIssuesTable(USN,error,imagePath)
+{
+	var select = document.getElementById("examTypeIssue");
+	examTypeIssue = select.options[select.selectedIndex].value;
+	alert(examTypeIssue);
+	select = document.getElementById("departmentIssue");
+	deptIssue = select.options[select.selectedIndex].value;
+	var subject = document.getElementById("subjectCodeIssue");
+	subject_selected = subject.options[subject.selectedIndex].value;
+	var details = document.getElementById("details");
+	details.style.display = "block";
+	details.innerHTML = "Department : " + deptIssue + " <br>Exam : " + examTypeIssue + " <br>Subject : " + subject_selected;
+	var issueImages = document.getElementById("issueImages");
+	issueImages.style.display = "block";
+	for(var i = 0; i < USN.length; i++)
+	{
+		var tr = document.createElement("tr");
+		var td = document.createElement("td");
+		td.innerHTML = USN[i];
+		tr.appendChild(td);
+		issueImages.appendChild(tr);
+		tr = document.createElement("tr");
+		td = document.createElement("td");
+		td.innerHTML = error[i];
+		tr.appendChild(td);
+		issueImages.appendChild(tr);
+		tr = document.createElement("tr");
+		var img = document.createElement("img");
+		//alert(imagePath[i]);
+		//img.src = "http://localhost/REAP/imageProcessing/inputScannedImages/1PI13CS061/page1.jpg";
+		img.src = imagePath[i];
+		img.alt = "Image not found";
+		img.width = "800";
+		tr.appendChild(img);
+		issueImages.appendChild(tr);
+	}
+
+	
+}

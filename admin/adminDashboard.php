@@ -82,7 +82,7 @@ else
                 </a>
               </li>
               <li style="padding:10px">  
-                <a data-toggle="tab" href="#issues" onclick="">
+                <a data-toggle="tab" href="#issues" onclick="issueInit()">
                 <span class="glyphicon glyphicon-exclamation-sign"></span> ISSUES 
                 </a>
               </li>
@@ -226,6 +226,33 @@ else
              	</div>
               <div id = "issues" class ="tab-pane fade">
                 <p class="text-success"> We have been notified about the following issues...Kindly look it !!</p>
+                <div id = "issueContainer">
+                <div class="col-lg-3">
+                    <h3><span class="label label-success">SELECT EXAM TYPE</span></h3>
+                    <select id="examTypeIssue" class="form-control" placeholder=".col-lg-4">
+                      <option>Select</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <h3><span class="label label-success">SELECT DEPARTMENT</span></h3>
+                    <select id="departmentIssue" class="form-control" placeholder=".col-lg-4">
+                      <option>Select</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <h3><span class="label label-success">SELECT SUBJECT CODE</span></h3>
+                    <select id="subjectCodeIssue" class="form-control" placeholder=".col-lg-4">
+                      <option>Select</option>
+                    </select>
+                </div><br><br>
+                <div class="col-lg-3">
+                    <input type="submit" name="submit" class="btn btn-lg btn-success" value="Get Errors" onclick="getErrors()" />
+                </div>
+                </div>
+                <div id = "details" style = "display:none;"></div>
+                <table id = "issueImages" style = "display:none;" border = "1">
+                  <col width = "100">
+                </table>
               </div>
         </div> 
       </div>   <!-- end of class tab-content-->
