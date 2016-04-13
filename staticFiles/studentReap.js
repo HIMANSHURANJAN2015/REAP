@@ -3,15 +3,16 @@
 * Student module html and php pages
 */
 var s,t;
-var usn = "1pi12cs015";
+//var usn = "1pi13cs061";
 var qn,eval;
 function loadSubjects()
 {
 
-    select = document.getElementById("subjects");                
+    select_sub = document.getElementById("subjectCodeSelect");                
+    select_exam = document.getElementById("examTypeSelect");
     xhr= new XMLHttpRequest();
     xhr.onreadystatechange = showSubjects;
-    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getSubjects.php?USN=1pi12cs015", true);
+    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getSubjects.php?USN=1pi13cs061", true);
     xhr.send();                                                       
 }
 
@@ -19,44 +20,37 @@ function showSubjects()
 {
 	if(xhr.readyState==4 && xhr.status==200)
     {
-        select.innerHTML = "";
+        select_sub.innerHTML = "";
+        select_exam.innerHTML = "";
         subject = JSON.parse(xhr.responseText);
         var len = subject.length;
         var option = document.createElement("option");
-        option.innerHTML = "-----------";
-       	option.value = "None";
-        select.appendChild(option);
         for(i=0;i<len;i++)
         {
             var option = document.createElement("option");
-            option.innerHTML = subject[i];
-            option.value = subject[i];
-            select.appendChild(option);
+            option.innerHTML = subject[i][0];
+            option.value = subject[i][0];
+            select_sub.appendChild(option);
+            var option = document.createElement("option");
+            option.innerHTML = subject[i][1];
+            option.value = subject[i][1];
+            select_exam.appendChild(option);
         }
-        /*
-        select = document.getElementByName("exam_type");
-        for(i=0;i<len;i++)
-        {
-          	var option = document.createElement("option");
-            option.innerHTML = exam_type[i];
-            option.value = exam_type[i];
-            select.appendChild(option);
-        }*/
     }
 }
 
 function fetch()
 {       
-    var sub = document.getElementById("subjects");
-    var type = document.getElementById("exam_type");
+    var sub = document.getElementById("subjectCodeSelect");
+    var type = document.getElementById("examTypeSelect");
     s = sub.options[sub.selectedIndex].value;
     t = type.options[type.selectedIndex].value;
     var subjectCode = document.getElementById("subjectCode");
-    subjectCode.style.display = "block";
     subjectCode.innerHTML = "Subject Code : " + s;
+    subjectCode.style.display = "block";	
     xhr= new XMLHttpRequest();
     xhr.onreadystatechange = showResult;        
-    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getquestionAndAnswers.php?sub_code="+s+"&examtype="+t+"&USN=1pi12cs015", true);
+    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getquestionAndAnswers.php?sub_code="+s+"&examtype="+t+"&USN=1pi12cs061", true);
     xhr.send();   
 }
 
@@ -174,6 +168,7 @@ function showResult()
 	        	td.setAttribute('colspan',5);
 	        	tr.appendChild(td);
 	        	table.appendChild(tr);
+	        	i = i +1;
 	        }
 	    	else
 		    { 

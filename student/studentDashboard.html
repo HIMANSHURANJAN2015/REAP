@@ -104,23 +104,22 @@
         <!-- #################### TAB-1 HOMEPAGE ####################-->
           <div id="evaluatorHomepage" class="tab-pane fade in active">
             <!--Header of the page for this module Doctor Dashboard-->
-           
+           <div class="row">
+                  <div class="col-lg-3">
+                    <h3><span class="label label-success">SELECT EXAM TYPE</span></h3>
+                    <select id="examTypeSelect" class="form-control" placeholder=".col-lg-4">
+                    </select>
+                  </div>
+                  <div class="col-lg-3">
+                    <h3><span class="label label-success">SELECT SUBJECT CODE</span></h3>
+                    <select id="subjectCodeSelect" class="form-control" placeholder=".col-lg-4">
+                    </select>
+                  </div>
+              </div>
               <!--Place Holders-->
               <div class="table-subject" id = "outerSubject">
-                <div>
-                  <LABEL>Subject :</LABEL><select id = "subjects"></select>  
-                </div>
-                <br>
-                <div>
-                  <label>Exam Type:</label><select id = "exam_type">
-                  <option value="None">-----------</option>
-                  <option value = "t1">T1</option>
-                  <!--<option value = "t1">T2</option>
-                  < option value = "t1">T3</option>
-                  <option value = "SEE">SEE</option>-->	
-                  </select>
-                </div>
-                <input type = "button" value ="GO" onclick="fetch()"/>
+              <br>
+                <input type = "button" class="btn btn-lg btn-success" value ="GO" onclick="fetch()"/>
               </div>
                 <div id = "subjectCode" style = "display:none;border:none"></div>
                 <br><br>

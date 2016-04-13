@@ -5,15 +5,17 @@ $USN = $_GET["USN"];
 //echo $image_id,$eval_email,$marks,$comments;
 include("connection.php");
 
-if(!$result = mysql_query("SELECT sub_code FROM takes WHERE USN = '$USN';"))
+if(!$result = mysql_query("SELECT DISTINCT a.sub_code,b.examtype FROM takes a,question_paper b WHERE 
+	(USN = '$USN')
+	AND (a.sub_code = b.sub_code);"))
 {
-	die("Error : Could not save the data");
+	die();
 }
 
 $subjects = array();
 while($row = mysql_fetch_row($result))
 {
-	$subjects[] = $row[0];
+	$subjects[] = $row;
 }
 
 $subjects = json_encode($subjects);
