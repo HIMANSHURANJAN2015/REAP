@@ -350,7 +350,7 @@ function showAnswerImages(imageurls,imageIds,missing)
     var td1 = innerDoc.createElement("td");
     //td1.innerHTML="";
     //5)fetchMaximumMarks...
-    var max = 5; /// #TODO
+    var max = 5; /// #TODO....done in other other function..
     var ip=innerDoc.createElement("input");
     ip.id=imageIds[i];
     //alert(ip.id);
@@ -359,20 +359,73 @@ function showAnswerImages(imageurls,imageIds,missing)
     ip.placeholder=max_marks;
     ip.max=max;
     ip.min=0;
-    if(global_type == 1 || global_type == 3){
+    //alert(global_completedImagesDetails+" from another");
+    var foo = innerDoc.getElementById("ChallengeExtraArea");
+    //removing challenge text area in all the 3 cases;
+    foo.style = "display:none";
+    if(global_type == 1){
       ip.style="width : 200px";
       ip.onkeyup = validateMarksEntered;
       ip.onblur = validateMarksEnteredOnBlur;
+      
+      //change header
+      innerDoc.getElementById("Header1").innerHTML="Enter Your Comments";
+      //disable footer area
+      innerDoc.getElementById("modalFooter").style="display:block";
+      //disable student comment
+      innerDoc.getElementById("commentText").disabled = false;
+      //hide buttons
+      innerDoc.getElementById("buttonArea").style = "display:none";
+
+       //button thing for type 2
+      var button =innerDoc.getElementById("commentButton");
+      button.disabled=false;
+
+
     }
     if(global_type == 2) {
       ip.value= global_completedImagesDetails[imageIds[i]][0];
       ip.readOnly = true;
       innerDoc.getElementById("missing").style.display="none";
+      
+      //change header
+      innerDoc.getElementById("Header1").innerHTML="See the Comment given";
+      //disable footer area
+      innerDoc.getElementById("modalFooter").style="display:block";
+      //disable student comment
+      innerDoc.getElementById("commentText").disabled = true;
+      //hide buttons
+      innerDoc.getElementById("buttonArea").style = "display:none";
+
+      //button thing for type 2
+      var button =innerDoc.getElementById("commentButton");
+      button.disabled=true;
+
+
+    
     }
     if(global_type == 3) {
+      ip.style="width : 200px";
+      ip.onkeyup = validateMarksEntered;
+      ip.onblur = validateMarksEnteredOnBlur;
+
       ip.value = global_challengedImagesDetails[imageIds[i]][0];
       ip.style = "background-color : green";
       innerDoc.getElementById("missing").style.display="none";
+      
+      //change header
+      innerDoc.getElementById("Header1").innerHTML="Comment by student";
+      //disable footer area
+      innerDoc.getElementById("modalFooter").style="display:none";
+      //disable student comment
+      innerDoc.getElementById("commentText").disabled = true;
+      //show buttons
+      innerDoc.getElementById("buttonArea").style = "display:block";
+
+      //button thing for type 2
+      var button =innerDoc.getElementById("commentButton");
+      button.disabled=false;
+
     }
     
     //ip.value=-1;  //giving default value to differentiate between case when he has intentionally given 0 marks and case when the default value is 0
@@ -455,6 +508,13 @@ function fillMissingDiv(missing,innerDoc,table)
 }
 //First function that is called and on the popup shows the bundles
 function startEvaluation() {
+  evaluator_email = "kumaradhara@gmail.com";
+  //saving in frame2
+  var iframe = document.getElementById("answerFrame");
+  var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+  var div = innerDoc.getElementById("evalEmailDiv");  //saving evaluator email..so that i can be accessed by other frames also..sinc they cant access variable alone
+  div.innerHTML= "kumaradhara@gmail.com";
+
   var qno = document.getElementById("questionNumber");
 	qno.value = ""; 
 	var input = document.getElementById("qinputs");
@@ -520,6 +580,7 @@ function startEvaluation() {
 
 //Called to set gloabl variables by startEvaluation() This closes with the click
 function showAnswerImagesQuestionWisePre(event) {
+  //alert(evaluator_email);
   var input = document.getElementById("qinputs");
   input.style.display = "inline-block";
   var source = event.target || event.srcElement;
@@ -542,8 +603,25 @@ function reset() {
 
 function save(event) 
 {
+ //alert(global_challengedImagesDetails);
+ //alert(window.opener.global_type); 
+ var comments="";
+ var typeImages = 1; //yet to be // or evaluated // or challenged
+ if(window.parent.document.getElementById('option3').checked) {
+  //means it corresponds to challenge
+  //alertify.alert("yes..."); 
+  comments= document.getElementById("challengeReply").value;
+  typeImages=3;
+  //remove from challenge table
+ } 
+ else
+ {
+   comments = document.getElementById("commentText").value;
+   typeImages=1;  //it can be 2 also
+ } 
+
  var table = document.getElementById("imagesTable");
- var comments = document.getElementById("commentText").value;
+ 
  var div = document.getElementById("imageId");
  var image_id = parseInt(div.innerHTML);
  xhr = new XMLHttpRequest();
@@ -575,9 +653,10 @@ function save(event)
   //p.innerHTML = "";
   //p.style = "color:red";
 }
+ var divEmail = document.getElementById("evalEmailDiv").innerHTML;
  //alert(marks+" "+comments+" "+image_id+" ko update");
  xhr.open("GET","http://localhost/REAP/dataFetchingFiles/marks_comments.php?image_id="+
- image_id+"&eval_email=kumaradhara@gmail.com"+"&marks="+marks+"&comments="+comments,true);
+ image_id+"&eval_email="+divEmail+"&marks="+marks+"&comments="+comments+"&typeImages"+typeImages,true);
  xhr.send();
 }
 
@@ -625,7 +704,7 @@ function showHistory()
 
 function saveComments()
 {
-  alertify.alert("ok");
+  //alertify.alert("ok");
 }
 
 function saveId(event)
@@ -665,10 +744,11 @@ function fetchComments(image_id) {
   var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
   innerDoc.getElementById("commentText").value="";
   innerDoc.getElementById("commentText").value=global_completedImagesDetails[image_id][1];
+  /* shifting it to up
   var button =innerDoc.getElementById("commentButton");
   //alert(button);
   button.disabled=true;
-
+  */
 }else {
   var iframe = document.getElementById("answerFrame");
   var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -726,3 +806,52 @@ function session_destroy(event)
 	div.style.display = "block";
 }
 
+
+function addChallengeTextArea(){
+    //alert("Will Add Comment Reply");
+    var foo = document.getElementById("ChallengeExtraArea");  
+    foo.style="display:block";
+    // removing previous div if any
+    var h=document.getElementById("Header2");
+    var cln = h.cloneNode(true);
+    foo.innerHTML = "";
+    foo.appendChild(cln);
+    //showing save and cancel button
+    var b=document.getElementById("modalFooter");
+    b.style="display:block";
+    //Create an input type dynamically.
+    var element = document.createElement("textarea");
+  //Assign different attributes to the element.
+    //element.setAttribute("type", "textarea");
+    element.setAttribute("value", "");
+    element.setAttribute("name", "challengeReply");
+    element.setAttribute("id", "challengeReply");
+    element.setAttribute("class","form-control");
+    element.setAttribute("rows","5");
+ 
+ 
+    
+ 
+    //Append the element in page (in span).
+    foo.appendChild(element);
+}
+
+function rejectChallenge(){
+  //var iframe = document.getElementById("answerFrame");
+  //var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+  var div1 = document.getElementById("evalEmailDiv");
+  var div2= document.getElementById("imageId");
+  //div.innerHTML= "kumaradhara@gmail.com";
+  //alertify.alert(div1.innerHTML);
+  //alertify.alert(div2.innerHTML);
+  //alertify.alert("i will remove the challenge from challenge table");
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState==4 && xhr.status==200){
+      alertify.alert(xhr.responseText);
+    }
+  }
+  xhr.open("GET","http://localhost/REAP/dataFetchingFiles/rejectChallenge.php?image_id="+
+ div2.innerHTML+"&eval_email="+div1.innerHTML,true);
+ xhr.send();
+}

@@ -109,7 +109,7 @@ for($i = 0 ;$i<sizeof($completedImagesId); $i++){
 //Challenge part  
 $evalEmail = 'kumaradhara@gmail.com';
 $challengedImagesId = array();
-if(!$result = mysql_query("select image_id from challenge where eval_email='$evalEmail';"))
+if(!$result = mysql_query("select image_id from challenge where eval_email='$evalEmail' and status='PENDING';"))
 {
   die("Error : 3 Could not query the database");	
 }
