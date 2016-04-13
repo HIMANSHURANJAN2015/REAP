@@ -13,6 +13,7 @@ path = ""
 image_extension = ""
 source_path = ""
 year = ""
+p = []
 #USN = "1pi12cs106" #run eliminate and isrowEmpty for this
 #USN = "1pi12cs105" #run add points and isrowEmpty for this
 #USN = "1pi12cs103"
@@ -200,9 +201,21 @@ def checkIfCancelled(circle1,circle2):
 		return True
 	return False
 
+#if answer is continued in the next page, then merge the two cropped images
+def merge(cimg,points,p,i):
+	x2 = cimg.shape[1]
+	y2 = points[i][1]
+	merge_image = p[len(p)-1]
+	img_previous = cv2.imread(merge_image)
+	roi = cimg[0:y2,0:x2]
+	#merge along horizontal axis
+	vis = np.concatenate((img_previous, roi), axis=0)
+	cv2.imwrite(merge_image,vis)
+
 '''crop out the answer part and also call getQuesNumber to identify the question number (both main question number and its subpart)'''
 def crop(cimg,points,circles):
 	j = 0
+	global p
 	#when none of the circles are marked in the page
 	if len(points) == 0:
 		return
@@ -216,6 +229,9 @@ def crop(cimg,points,circles):
 			if i % 2 == 0:
 				while(isRowEmpty(circles[j:j+10],points,i)):
 					#print("Flag")
+					if j == 0:
+						#Answer from previous page is continued
+						merge(cimg,points,p,i)
 					j = j + 10
 			#check if two consecutive circles are marked in the same row
 			cancelled = checkIfCancelled(points[i],points[i+1])
@@ -235,6 +251,7 @@ def crop(cimg,points,circles):
 				x1 = 0
 				# get the region of interest i.e the answer part
 				roi = cimg[y1:y2,x1:x2]
+				#p.append(path+"/"+USN+"/"+test_name+sub_code+str(part1)+part2+str(year)+image_extension)
 				cv2.imwrite(path+"/"+USN+"/"+test_name+sub_code
 					+str(part1)+part2+str(year)+image_extension,roi)
 			else:
@@ -249,6 +266,7 @@ def crop(cimg,points,circles):
 			if i == len(points)-2:
 				y2 = cimg.shape[0] #height of the image
 				roi = cimg[y1:y2,0:x2]
+				p.append(path+"/"+USN+"/"+test_name+sub_code+str(part1)+part2+str(year)+image_extension)
 				cv2.imwrite(path+"/"+USN+"/"+test_name+sub_code+
 					str(part1)+part2+str(year)+image_extension,roi)
 			#insertInDb(path,USN,image_extension,str(part1)+part2)
@@ -467,14 +485,14 @@ def rename():
 	for directory in sub_directories:
 		i = 1
 		for file in sorted(glob.glob(directory+"/*"+".jpg")):
-			#print("\n\n"+file+"\n\n")
+			#print("\nOriginal : "+file+"\n")
 			l = file.split("/")
 			l.pop()
 			last = "/page" + str(i) + image_extension
 			i = i + 1
 			path = "/".join(l)
 			path = path + last
-			#print(path)
+			#print("Changed : "+path)
 			os.rename(file,path)
 
 def resize(image):
@@ -490,15 +508,15 @@ if __name__ == '__main__':
 	for root,directories,files in os.walk(source_path):
 		sub_directories.append(root)
 	sub_directories.pop(0)
-	#print(sub_directories)
+	#print("sub_directories : "+ str(sub_directories))
 	for directory in sub_directories:
 		for file in glob.glob(directory+"/*"+image_extension):
-			#print("\n\n"+file+"\n\n")
+			print("\n\nFile : "+file+"\n\n")
 			USN = getUSNFromPath(directory)
 			#print(USN)
 			if not os.path.exists(path+"/"+USN):
 				os.makedirs(path+"/"+USN)
-				print(path+"/"+USN)
+				#print(path+"/"+USN)
 			#read the image
 			cimg = cv2.imread(file)
 			cimg = resize(cimg)
@@ -539,4 +557,6 @@ if __name__ == '__main__':
 				info = "Could not crop answers preoperly"
 				writeToCsv(file,USN,info)
 				#print("-------_ERROR--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
+		#p = []
+
 
