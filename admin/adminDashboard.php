@@ -49,7 +49,7 @@ else
   </div>
   <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><?php echo $name; ?></a></li>
+        <!-- <li><a href="#"><?php echo $name; ?></a></li>-->
         <li><a href="http://localhost/REAP/login.html" onclick = "session_destroy()">LogOut</a></li>
       </ul>
   </div>
@@ -105,7 +105,8 @@ else
                   </div>
                   <div class="col-lg-2">
                     <br/><br />
-                    <input type="submit" name="submit" class="btn btn-lg btn-success" value="Go" onclick="startImageProcessing() " />
+                    <input id = "startImageProc" type="submit" name="submit" class="btn btn-lg btn-success" value="Go" onclick="startImageProcessing() " />
+                    <img id = "processing">
                   </div>
                 </div>
               </div>  

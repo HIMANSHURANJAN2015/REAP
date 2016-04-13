@@ -77,20 +77,27 @@ function updatesubjectCodeSelect() {
 	xhr.send();
 }
 
-function startImageProcessing(){
+function startImageProcessing(event)
+{	
 	var type = document.getElementById("examTypeSelect").value;
-	var subjectCode = document.getElementById("subjectCodeSelect").value; 
+	var subjectCode = document.getElementById("subjectCodeSelect").value;		 
 	if(type == "Select" || subjectCode== "Select")
 	{
 	  alertify.alert("Kindly enter the inputs");
 	  return;	
 	}
-	alertify.alert("Starting answer extraction !!");	
+	var processing = document.getElementById("processing");
+	processing.src = "/REAP/wait_circle.gif";
+	alertify.alert("Starting answer extraction !!");
+	var go = document.getElementById("startImageProc");
+	go.disabled = true;	
 	var xhr = new XMLHttpRequest();
 	//alertify.alert(type+subjectCode);
 	xhr.onreadystatechange=function() {
 		if(xhr.readyState==4 && xhr.status==200) {
 			alertify.alert("Answer Extraction Done");
+			go.disabled = false;
+			processing.src = "";
 			init(); //to reset everything since the dropdown for selecting subject will now show 1 less`
 		}
 	}

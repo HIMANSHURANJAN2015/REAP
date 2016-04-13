@@ -56,8 +56,8 @@ def detectCircles(img,cimg):
 				info = "Could not process the image"
 				writeToCsv(file,USN,info)
 				#print("Error : Could not process image "+file+" belonging to USN : "+USN)
-				circles = []
-				return [],circles
+				#circles = []
+				#return [],circles
 	except TypeError:
 		print("-------_TypeError---------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
 		return
@@ -173,6 +173,9 @@ def check_for_letters(circles,j):
 				if index == 0:
 					index = index
 				index = index + j
+			if i > 540:
+				index = mylist.index(i)
+				index = index + j + 1
 		else:
 			#first row of circles
 			if i in range(400,480):
@@ -248,7 +251,7 @@ def crop(cimg,points,circles):
 				roi = cimg[y1:y2,0:x2]
 				cv2.imwrite(path+"/"+USN+"/"+test_name+sub_code+
 					str(part1)+part2+str(year)+image_extension,roi)
-			insertInDb(path,USN,image_extension,str(part1)+part2)
+			#insertInDb(path,USN,image_extension,str(part1)+part2)
 	except (RuntimeError, TypeError, NameError):
 		print("-------_ERROR--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
 	except:
@@ -352,7 +355,7 @@ def createNewPoints(temp,index):
 				xindex = i+1
 				xvalue = mylist[xindex]
 				mylist.insert(xindex+1,xvalue)
-			temp1.append([xvalue+average,y_average,temp[index-1][2]])
+			temp1.append([xvalue+average-3,y_average,temp[index-1][2]])
 		#print("temp :")
 		#print(temp1)
 		return temp1,xindex
