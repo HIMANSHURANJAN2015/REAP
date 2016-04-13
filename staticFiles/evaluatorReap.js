@@ -38,6 +38,7 @@ function reapify2()
  {
  	xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = getQAndA;
+  //alert("reading from global"+qp_id);
 	xhr.open("GET","http://localhost/REAP/question_and_answer.php?qp_id="+qp_id+"&qno="+qno,false);
 	xhr.send();	
  	//make a xhr call to getImageURL.php and return URLs in JSON format
@@ -181,8 +182,8 @@ function showAnswerImagesQuestionWise()
         //alert(questionNumber);
         xhr = new XMLHttpRequest();
         xhr.onreadystatechange = getURL;
-        alert(global_bundle_id);
-        xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getImageURL.php?bundle_id="+global_bundle_id+"&qno="+questionNumber+"&qp_id=4",true);
+        //alert(global_bundle_id);
+        xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getImageURL.php?bundle_id="+global_bundle_id+"&qno="+questionNumber+"&qp_id="+qp_id,true);
         xhr.send();
         updateExpectedQuestionAnswer(questionNumber);
         var frames = document.getElementsByTagName("iframe");
@@ -272,7 +273,7 @@ xhr.onreadystatechange= function(){
       
   }//end of function
   //
-    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/question_and_answer.php?qp_id=4"+"&qno="+questionNumber,false);
+    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/question_and_answer.php?qp_id="+qp_id+"&qno="+questionNumber,false);
   xhr.send();
 
   //var expected_answer = "OpenStack is a free and open-source software platform for cloud computing, mostly deployed as an infrastructure-as-a-service (IaaS). The software platform consists of interrelated components that control hardware pools of processing, storage, and networking resources throughout a data center";
@@ -454,7 +455,7 @@ function fillMissingDiv(missing,innerDoc,table)
 }
 //First function that is called and on the popup shows the bundles
 function startEvaluation() {
-	var qno = document.getElementById("questionNumber");
+  var qno = document.getElementById("questionNumber");
 	qno.value = ""; 
 	var input = document.getElementById("qinputs");
 	input.style.display = "none";
@@ -474,6 +475,7 @@ function startEvaluation() {
           bundleArray = returnArray['bundle_id'];
           codeArray = returnArray['subject_code'];
           qpidArray = returnArray['qp_id'];
+          //alert(qpidArray);
           l=bundleArray.length;
           //var body = document.getElementById("bundleModalBody");
           var body = document.getElementById("bundleDialog");
@@ -491,7 +493,7 @@ function startEvaluation() {
             var h=document.createElement("h4");
             h.innerHTML=bundleArray[i] + "      "+codeArray[i];
             h.onclick = showAnswerImagesQuestionWisePre;
-            h.onHover = "red"
+            h.onHover = "red";
             h.id = qpidArray[i];
             body.appendChild(h);
           }
@@ -528,6 +530,7 @@ function showAnswerImagesQuestionWisePre(event) {
   global_subject_code=subject_code;
   global_bundle_id=bundle_id;
   qp_id = event.target.id;
+  //alert(qp_id);
   document.getElementById("bundleDialog").close();
 }
 
