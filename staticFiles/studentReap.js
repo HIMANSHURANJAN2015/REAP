@@ -12,7 +12,7 @@ function loadSubjects()
     select_exam = document.getElementById("examTypeSelect");
     xhr= new XMLHttpRequest();
     xhr.onreadystatechange = showSubjects;
-    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getSubjects.php?USN=1pi13cs061", true);
+    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getSubjects.php?USN=1pi12cs015", true);
     xhr.send();                                                       
 }
 
@@ -50,7 +50,7 @@ function fetch()
     subjectCode.style.display = "block";	
     xhr= new XMLHttpRequest();
     xhr.onreadystatechange = showResult;        
-    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getquestionAndAnswers.php?sub_code="+s+"&examtype="+t+"&USN=1pi12cs061", true);
+    xhr.open("GET","http://localhost/REAP/dataFetchingFiles/getquestionAndAnswers.php?sub_code="+s+"&examtype="+t+"&USN=1pi12cs015", true);
     xhr.send();   
 }
 
@@ -77,7 +77,7 @@ function showResult()
         {
         	//alertify.alert(usn);
         	//alert(result[i+1]["question_num"]);
-        	if(result.length > 1 && (result[i]["question_num"] == result[i+1]["question_num"]) && (i != result.length-1))
+        	if((i != result.length-1) && result.length > 1 && (result[i]["question_num"] == result[i+1]["question_num"]))
 	        {
 	        	//alert(result[i]["question_num"]);
 	        	//alert("ssup");
