@@ -116,7 +116,7 @@ else
                 <div class="row">
                   <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
                       <span style="font-size: 20px; background-color: #F3F5F6; padding: 0 10px;">
-                      Step-1 Create A Bundle  <!--Padding is optional-->
+                      Step-1 Basic Information (MANDATORY)  <!--Padding is optional-->
                       </span>
                   </div>
                   <div class="col-lg-3">
@@ -140,7 +140,20 @@ else
                   <div class="col-lg-2">
                     <br/><br />
                     <div style = "display:inline;">
-                    <input type="submit" name="submit" class="btn btn-lg btn-success" value="Create a Bundle" onclick="createBundle()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional </div>
+                    <input type="submit" name="submit" class="btn btn-lg btn-success" value="Go" onclick="basicDetails()" /> </div>
+                  </div>
+                </div>
+          <div id="bundleSteps" style="display:none">        
+                <div class="row">
+                  <br/><br/><br/><br/><br/>
+                  <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
+                      <span style="font-size: 20px; background-color: #F3F5F6; padding: 0 10px;">
+                      Step-2 CREATE Bundle (OPTIONAL) <!--Padding is optional-->
+                      </span>
+                  </div>
+                   <div style = "display:inline;">
+                   <br/><br/>
+                    <input type="submit" name="submit" class="btn btn-lg btn-success" value="Create a Bundle" onclick="createBundle()" />
                   </div>
                 </div>
 
@@ -148,7 +161,7 @@ else
                   <br/><br/><br/><br/><br/>
                   <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
                       <span style="font-size: 20px; background-color: #F3F5F6; padding: 0 10px;">
-                      Step-2 Assign Students to a Bundle <!--Padding is optional-->
+                      Step-3 Assign Students to a Bundle <!--Padding is optional-->
                       </span>
                   </div>
                   <div class="col-lg-3">
@@ -166,7 +179,20 @@ else
                   </div>
                   <div class="col-lg-2">
                     <br/><br />
+                    <div class="checkbox">
+                      <label><input type="checkbox" id="assignNext10" value="" onclick="changeStudentMethod()">Select next 10 students</label>
+                    </div>
+                    
+                  </div>
+                  <div class="col-lg-2">
+                    <br/><br />
                     <input id = "assignStudents" type="submit" name="submit" class="btn btn-lg btn-success" value="Assign Student" onclick="assignStudents()" />
+                  </div>
+                  <div class="col-lg-3">
+                    <br/><br />
+                    <h4><span class="label label-success">Total student who have taken this course =<span id="totalStud">24</span></span></h4>
+                    <h4><span class="label label-success">Total student un-assigned to any bundle =<span id=totalUnAssigned>12</span></span></h4>
+                    
                   </div>
                 </div>
 
@@ -174,7 +200,7 @@ else
                   <br/><br/><br/><br/><br/>
                   <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
                       <span style="font-size: 20px; background-color: #F3F5F6; padding: 0 10px;">
-                      Step-3 Assign Bundle to a Evaluator <!--Padding is optional-->
+                      Step-4 Assign Bundle to a Evaluator <!--Padding is optional-->
                       </span>
                   </div>
                   <div class="col-lg-3">
@@ -195,6 +221,7 @@ else
                     <input type="submit" name="submit" class="btn btn-lg btn-success" value="Assign Evaluator" onclick="assignEvaluators()" />
                   </div>
                 </div>
+            </div>    
 
                 <br /><br /><br />
               </div>

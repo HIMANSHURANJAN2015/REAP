@@ -9,4 +9,13 @@ while($row = mysql_fetch_assoc($result))
 {
  $usns[] = $row['USN'];	
 }
-echo (json_encode($usns));	
+//echo (json_encode($usns));	
+$result1 = mysql_query("select count(*) as count from takes where sub_code='$subCode'");
+$row = mysql_fetch_assoc($result1);
+$totalStudent = $row['count'];
+$unassignedStudent = sizeof($usns);
+//echo $countStudent;
+//echo $unassignedStudent;
+
+$finalResult = array("UnassignedUsns"=>$usns,"totalStudent"=>$totalStudent);
+echo json_encode($finalResult);

@@ -157,6 +157,18 @@ function updateSubBundle(select)
 	xhr.send();
 }
 
+function basicDetails(){
+	alertify.alert("Disable");
+	if(document.getElementById("examTypeBundle").value=="Select" || document.getElementById("departmentBundle").value=="Select" || document.getElementById("subjectCodeBundle").value=="Select" ) {
+		alertify.alert("Please enter all the mandatory fields");
+	} else {
+		document.getElementById("bundleSteps").style="display:block";
+	}
+	updateBundleInfo(1);
+	updateBundleInfo2();
+	getEvaluators();
+	
+}
 function createBundle()
 {
 	var subject = document.getElementById("subjectCodeBundle");
@@ -173,6 +185,9 @@ function createBundle()
 			qp_id = res["qp_id"];
 		}
 		updateBundleInfo(1);
+		//getStudentUSN();
+		updateBundleInfo2();
+		getEvaluators();
 	}
 	xhr.open("GET","http://localhost/REAP/dataFetchingFiles/bundleCreate.php?sub_code="+sub_code+
 		"&examtype="+examType,true);
@@ -216,7 +231,7 @@ function getStudentUSN()
 {
 	var bundle = document.getElementById("idBundleStudent");
 	var bundle_info = bundle.options[bundle.selectedIndex].value;
-	bundle_id = bundle_info.split(":")[0];
+	bundle_id = bundle_info.split(":")[0]; //this is being used at all the places;
 	sub_code = bundle_info.split(":")[1]; 
 	var stud = document.getElementById("studentsBundle");
 	var xhr = new XMLHttpRequest();
@@ -226,7 +241,9 @@ function getStudentUSN()
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			stud.innerHTML = "";
-			var res = JSON.parse(xhr.responseText);
+			var res1 = JSON.parse(xhr.responseText);
+			//alert(res1);
+			res=res1["UnassignedUsns"];
 			var op = document.createElement("option");
 			op.innerHTML = "Select";
 			stud.appendChild(op);
@@ -237,6 +254,9 @@ function getStudentUSN()
 				op.value = res[i];
 				stud.appendChild(op);
 		    }
+		    //show the total count 
+		    document.getElementById("totalStud").innerHTML = res1["totalStudent"];
+		    document.getElementById("totalUnAssigned").innerHTML = res.length;
 
 		}
 	}
@@ -247,20 +267,47 @@ function getStudentUSN()
 
 function assignStudents()
 {
-	var stud = document.getElementById("studentsBundle");
-	var selected_students = stud.selectedOptions;
 	var values = "";
-	for(var i = 0; i < selected_students.length; i++)
-	{
-		//alert(bundle_id);
-		if(selected_students.length == 1) {
-			values += "(" + bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")";
+	var selected = "";
+	var type = "MANUAL";   //MANUAL or NEXT10
+	var stud = document.getElementById("studentsBundle");
+	if(document.getElementById("assignNext10").checked) {
+		for(i=0;i<res.length;i++) {
+			if(i==10){
+				break;
+			}
+			//alert(bundle_id);
+			if(res.length == 1) {
+				values += "(" + bundle_id + "," + "\'" + res[i] + "\'" + ")";
+			}
+			else{
+				//values += "," + "(" + bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")";
+				values += "("+ bundle_id + "," + "\'" + res[i]+ "\'" + ")" + ",";
+			}	
+
 		}
-		else{
-			//values += "," + "(" + bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")";
-			values += "("+ bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")" + ",";
-		}	
-		
+		selected = res;
+		type="NEXT10";
+	} else {
+		//select.disabled=false;
+		//var stud = document.getElementById("studentsBundle");
+		var selected_students = stud.selectedOptions;
+		//alert(selected_students);
+		//var values = "";
+		for(var i = 0; i < selected_students.length; i++)
+		{
+			//alert(bundle_id);
+			if(selected_students.length == 1) {
+				values += "(" + bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")";
+			}
+			else{
+				//values += "," + "(" + bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")";
+				values += "("+ bundle_id + "," + "\'" + selected_students[i].value + "\'" + ")" + ",";
+			}	
+			
+		}
+		selected = selected_students;
+		type="MANUAL";
 	}
 	//alert(values);
 	if(values.slice(-1)==",")
@@ -270,7 +317,9 @@ function assignStudents()
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			//alert(xhr.responseText);
-			assignBundleImage(bundle_id,selected_students);
+			assignBundleImage(bundle_id,selected, type);
+			updateBundleInfo();
+			getStudentUSN();
 			updateBundleInfo2();
 			getEvaluators();
 			stud.innerHTML = "";
@@ -311,16 +360,26 @@ function updateBundleInfo2()
 	xhr.open("GET","http://localhost/REAP/dataFetchingFiles/bundleDetails.php?subCode="+sub_code+"&type="+examType,true);
 	xhr.send();
 }
-function assignBundleImage(bundleId,selectedStudents)
+function assignBundleImage(bundleId,Students,type)
 {
-  var usns = [];
-  for(i=0;i<selectedStudents.length;i++)
-  {
-  	usns[i] = selectedStudents[i].value;
-  }	
+  var usns = [];	
+  if(type == "NEXT10") {
+  	for(i=0;i<Students.length;i++)
+  	{
+  		usns[i] = Students[i];
+  	}	
+      
+  }	else {
+  	for(i=0;i<Students.length;i++)
+  	{
+  	usns[i] = Students[i].value;
+  	}	
+  }
+  //var usns = [];
+  
   //alert(usns);
   usns = JSON.stringify(usns); 	
-  alert(usns);
+  //alert(usns);
   var type = document.getElementById("examTypeBundle").value;
   var subCode = document.getElementById("subjectCodeBundle").value;
   var xhr = new XMLHttpRequest();
@@ -362,7 +421,8 @@ function getEvaluators()
 }
 
 function assignEvaluators()
-{
+{   
+	alertify.alert("Assigning to evals");
 	var bundle = document.getElementById("idBundleEvaluator");
 	var bundle_info = bundle.options[bundle.selectedIndex].value;
 	bundle_id = bundle_info.split(":")[0];
@@ -372,19 +432,22 @@ function assignEvaluators()
 	for(var i = 0; i < selected_evaluators.length; i++)
 	{
 		//alert(bundle_id);
-		if(selected_evaluators.length == 1)
+		if(i==0) //if(selected_evaluators.length == 1)
 			values += "(" + bundle_id + "," + "\'" + selected_evaluators[i].value + "\'" + ")";
 		else
 			values += "," + "(" + bundle_id + "," + "\'" + selected_evaluators[i].value + "\'" + ")";
-		alert(values);
+		//alert(values);
 	}
+	//alert(values);
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			if(xhr.responseText == 1)
 			{
-				alert("Assigned bundle "+bundle.options[bundle.selectedIndex].innerHTML+" to selected evaluators");
+				alertify.alert("Assigned bundle "+bundle.options[bundle.selectedIndex].innerHTML+" to selected evaluators");
+			} else {
+				alertify.alert(xhr.responseText);
 			}
 			updateBundleInfo2();
 		}
@@ -578,4 +641,14 @@ function populateImageIssuesTable(USN,error,imagePath)
 	}
 
 	
+}
+
+function changeStudentMethod(){
+	//alert("here");
+	var select = document.getElementById("studentsBundle");
+	if(document.getElementById("assignNext10").checked) {
+		select.disabled=true;
+	} else {
+		select.disabled=false;
+	}
 }
