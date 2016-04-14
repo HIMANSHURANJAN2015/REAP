@@ -51,7 +51,7 @@ $query = substr($query, 0, -1);
 
 if(!$result = mysql_query("insert into bundle_image values $query;"))
 {
-	die("Error : Failed to assign images");
+	die("Error : Failed to assign images".mysql_error().$query);
 }
 else
 {
