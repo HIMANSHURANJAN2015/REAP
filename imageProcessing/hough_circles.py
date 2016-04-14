@@ -4,7 +4,7 @@ import json
 import glob, os, sys
 import random, math, statistics
 from statistics import StatisticsError
-import csv,pymysql
+import csv,pymysql,time
 #circles should not be very thick nor very thin, 2px is ideal
 #distance from left to first circle is around 13, radius is 8-9, dist btw 2 circles is 6
 #distance btw circle in first row and second row is 18
@@ -60,7 +60,7 @@ def detectCircles(img,cimg):
 				#circles = []
 				#return [],circles
 	except TypeError:
-		print("-------_TypeError---------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
+		#print("-------_TypeError---------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
 		return
 	#print(len(circles))
 	#print(circles)
@@ -92,8 +92,8 @@ def detectCircles(img,cimg):
 			#filled circle found, save the center co-ordinates and the radius
 			points1.append([i[0],i[1],i[2]])
 			#draw on filled circles in original image to highlight them
-			cv2.circle(cimg,(i[0],i[1]),i[2],(0,255,0),5)
-			cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),5)
+			cv2.circle(cimg,(i[0],i[1]),i[2],(0,255,0),2)
+			cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),2)
 	'''sort the list with respect to axis 1 (y co-ordinate) to arrange the points from top
 	to bottom in the image''' 
 	points1.sort(key=lambda y: y[1]) 
@@ -197,7 +197,7 @@ def check_for_letters(circles,j):
 
 def checkIfCancelled(circle1,circle2):
 	if abs(circle1[1] - circle2[1]) < circle1[2]:
-		#print("------------Cancelled------------")
+		print("------------Cancelled------------")
 		return True
 	return False
 
@@ -269,17 +269,17 @@ def crop(cimg,points,circles):
 				p.append(path+"/"+USN+"/"+test_name+sub_code+str(part1)+part2+str(year)+image_extension)
 				cv2.imwrite(path+"/"+USN+"/"+test_name+sub_code+
 					str(part1)+part2+str(year)+image_extension,roi)
-			#insertInDb(path,USN,image_extension,str(part1)+part2)
+			insertInDb(path,USN,image_extension,str(part1)+part2)
 	except (RuntimeError, TypeError, NameError):
 		print("-------_ERROR--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
 	except:
-		print("-------_ERROR--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
+		#print("-------_ERROR--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
 		raise
 
 def insertInDb(path,USN,image_extension,qno):
 	#print("In insertion")
 	#print(path,USN,image_extension,qno)
-	conn = pymysql.connect(host='localhost', user='root', passwd='paswrd', db='REAP')
+	conn = pymysql.connect(host='localhost', user='root', passwd='himanshu', db='REAP')
 	#print("conected")
 	cur = conn.cursor()
 	cur.execute("SELECT qp_id FROM question_paper WHERE examtype=%s and sub_code=%s",(sys.argv[1],sys.argv[2]))
@@ -336,8 +336,8 @@ def addPoints(circles):
 			j = j + 5
 		return circles
 	except TypeError:
-		print("-------_TypeError--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
-
+		#print("-------_TypeError--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
+		raise
 
 def createNewPoints(temp,index):
 	diff = []
@@ -356,7 +356,8 @@ def createNewPoints(temp,index):
 	try:
 		average = (int)(statistics.mean(diff))
 	except StatisticsError:
-		print("-------_StatisticsError--------\nCould not process image "+file+" belonging to USN :"+USN+"\n-------------------------------")
+		#print("-------_StatisticsError--------\nCould not process image "+file+" belonging to USN :"+USN+"\n-------------------------------")
+		raise
 	#print("average of x points: "+str(average))
 	temp1 = []
 	try:
@@ -503,15 +504,22 @@ def resize(image):
 if __name__ == '__main__':
 	test_name,sub_code,year = namingConvention()
 	rename()
+	f = open("/var/www/html/REAP/imageProcessing/error.csv", "w+")
+	f.close()
+	with open('/var/www/html/REAP/imageProcessing/error.csv', 'a') as csvfile:
+  		fieldnames = ['USN','Error','ImagePath']
+  		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+  		writer.writeheader()
 	#The glob module finds all the pathnames matching a specified pattern
 	sub_directories = []
 	for root,directories,files in os.walk(source_path):
 		sub_directories.append(root)
 	sub_directories.pop(0)
 	#print("sub_directories : "+ str(sub_directories))
+	start = time.time()
 	for directory in sub_directories:
 		for file in glob.glob(directory+"/*"+image_extension):
-			print("\n\nFile : "+file+"\n\n")
+			#print("\n\nFile : "+file+"\n\n")
 			USN = getUSNFromPath(directory)
 			#print(USN)
 			if not os.path.exists(path+"/"+USN):
@@ -558,5 +566,7 @@ if __name__ == '__main__':
 				writeToCsv(file,USN,info)
 				#print("-------_ERROR--------\nCould not process image "+file+" belonging to USN : "+USN+"---------------------")
 		#p = []
-
+	#print(p)
+	end = time.time()
+	print(end-start)
 
