@@ -409,7 +409,7 @@ function showAnswerImages(imageurls,imageIds,missing)
       //button thing for type 2
       var button =innerDoc.getElementById("commentButton");
       button.disabled=true;
-       alert("display illa");
+       //alert("display illa");
       //missing div
       div = innerDoc.getElementById("missing");
       div.style.display = "none";
