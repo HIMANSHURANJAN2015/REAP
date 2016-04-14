@@ -1,5 +1,5 @@
 <?php
-if (!$conn = mysql_connect('localhost', 'root', '')) {
+if (!$conn = mysql_connect('localhost', 'root', 'himanshu')) {
     die('Error : Could not connect to database');
 }
 
