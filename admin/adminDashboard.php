@@ -32,6 +32,46 @@ else
     <link rel="stylesheet" href="../staticFiles/alertify/themes/alertify.default.css" />
   <script src="../staticFiles/js/jquery-1.11.2.min.js"></script>
   <script src="../staticFiles/dist/js/bootstrap.min.js"></script>
+  <style type="text/css">
+      input[type=text]{
+          width: 75%;
+          padding: 12px 20px;
+          margin-left : 20px;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+      }
+      textarea {
+          width: 75%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+      }
+
+      .formfield * {
+          vertical-align: middle;
+      }
+
+      input[type=submit]#question {
+          width: 10%;
+          background-color: #4CAF50;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+
+      input[type=submit]:hover#question {
+          background-color: #45a049;
+      }
+
+  </style>
  </head>
 <body bgcolor="#00cc66" onload="init()">
   <!--navigation bar-->
@@ -79,6 +119,11 @@ else
               <li style="padding:10px">  
                 <a data-toggle="tab" href="#result" onclick="resultInit()">
                 <span class="glyphicon glyphicon-stats"></span> RESULT 
+                </a>
+              </li>
+              <li style="padding:10px">  
+                <a data-toggle="tab" href="#qpaper" onclick="">
+                <span class="glyphicon glyphicon-file"></span>QUESTION PAPER 
                 </a>
               </li>
               <li style="padding:10px">  
@@ -225,6 +270,7 @@ else
 
                 <br /><br /><br />
               </div>
+
               <div id = "result" class ="tab-pane fade">
                 <p class="text-success"> U can see the entire marks scored by each candidate</p>
                 <div class="row">
@@ -252,6 +298,74 @@ else
                 	</table>
                 </div>
              	</div>
+
+              <div id= "qpaper" class="tab-pane fade">
+                  <form method="post" enctype="multipart/form-data" action="http://localhost/REAP/dataFetchingFiles/fileUpload.php" >
+                          <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+                          <input type="file" name="filename" value = ""/>
+                          <input type="submit" value="Upload" name="Upload" />
+                  </form> 
+                  <form id = "QandA" method="POST" action="http://localhost/REAP/dataFetchingFiles/insertQuestions.php">
+                      <h3>Question 1</h3><br><br>
+                        <label>a</label><input class = "que" id="1aq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="1aa"></textarea></p><br>
+                        <label>b</label><input class = "que" id="1bq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="1ba"></textarea></p><br>    
+                        <label>c</label><input class = "que" id="1cq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="1ca"></textarea></p><br>    
+                        <label>d</label><input class = "que" id="1dq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="1da"></textarea></p><br>    
+                        <label>e</label><input class = "que" id="1eq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="1ea"></textarea></p><br><br>    
+                      <h3>Question 2</h3><br><br>
+                        <label>a</label><input class = "que" id="2aq" size = "48px" placeholder="Enter Question 1a here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="2aa"></textarea></p><br>
+                        <label>b</label><input class = "que" id="2bq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="2ba"></textarea></p><br>    
+                        <label>c</label><input class = "que" id="2cq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="2ca"></textarea></p><br>    
+                        <label>d</label><input class = "que" id="2dq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="2da"></textarea></p><br>    
+                        <label>e</label><input class = "que" id="2eq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="2ea"></textarea></p><br><br>
+                      <h3>Question 3</h3><br><br>
+                        <label>a</label><input class = "que" id="3aq" size = "48px" placeholder="Enter Question 1a here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="3aa"></textarea></p><br>
+                        <label>b</label><input class = "que" id="3bq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="3ba"></textarea></p><br>    
+                        <label>c</label><input class = "que" id="3cq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="3ca"></textarea></p><br>    
+                        <label>d</label><input class = "que" id="3dq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="3da"></textarea></p><br>    
+                        <label>e</label><input class = "que" id="3eq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="3ea"></textarea></p><br><br>  
+                      <h3>Question 4</h3><br><br>
+                        <label>a</label><input class = "que" id="4aq" size = "48px" placeholder="Enter Question 1a here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="4aa"></textarea></p><br>
+                        <label>b</label><input class = "que" id="4bq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="4ba"></textarea></p><br>    
+                        <label>c</label><input class = "que" id="4cq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="4ca"></textarea></p><br>    
+                        <label>d</label><input class = "que" id="4dq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="4da"></textarea></p><br>    
+                        <label>e</label><input class = "que" id="4eq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="4ea"></textarea></p><br><br>  
+                      <h3>Question 5</h3><br><br>
+                        <label>a</label><input class = "que" id="5aq" size = "48px" placeholder="Enter Question 1a here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="5aa"></textarea></p><br>
+                        <label>b</label><input class = "que" id="5bq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="5ba"></textarea></p><br>    
+                        <label>c</label><input class = "que" id="5cq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="5ca"></textarea></p><br>    
+                        <label>d</label><input class = "que" id="5dq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="5da"></textarea></p><br>    
+                        <label>e</label><input class = "que" id="5eq" size = "48px" placeholder="Enter Question here !" type="text"/><br>
+                        <p class="formfield"><label>Ans</label><textarea rows = "8" cols = "50" id="5ea"></textarea></p><br><br>        
+                        
+                  </form>
+                  <input type="submit" form = "QandA"id="question"  value="Submit">
+              </div>
+
               <div id = "issues" class ="tab-pane fade">
                 <p class="text-success"> We have been notified about the following issues...Kindly look it !!</p>
                 <div id = "issueContainer">

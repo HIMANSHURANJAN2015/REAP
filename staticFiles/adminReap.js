@@ -158,7 +158,7 @@ function updateSubBundle(select)
 }
 
 function basicDetails(){
-	alertify.alert("Disable");
+	//alertify.alert("Disable");
 	if(document.getElementById("examTypeBundle").value=="Select" || document.getElementById("departmentBundle").value=="Select" || document.getElementById("subjectCodeBundle").value=="Select" ) {
 		alertify.alert("Please enter all the mandatory fields");
 	} else {
@@ -607,7 +607,7 @@ function populateImageIssuesTable(USN,error,imagePath)
 {
 	var select = document.getElementById("examTypeIssue");
 	examTypeIssue = select.options[select.selectedIndex].value;
-	alert(examTypeIssue);
+	//alert(examTypeIssue);
 	select = document.getElementById("departmentIssue");
 	deptIssue = select.options[select.selectedIndex].value;
 	var subject = document.getElementById("subjectCodeIssue");
