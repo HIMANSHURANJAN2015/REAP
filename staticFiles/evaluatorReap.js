@@ -239,6 +239,11 @@ function getURL()
   		{
     		return;
   		}
+      //#asd
+      var iframe = document.getElementById("answerFrame");
+      var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+      div = innerDoc.getElementById("missing"); 
+      div.style.display = "none";
   		//showAnswerImages(imageurls,imageIds,missing,foundUSN);
       showAnswerImages(imageurls,imageIds,missing);
 	}
@@ -306,6 +311,7 @@ function showAnswerImages(imageurls,imageIds,missing)
  	var iframe = document.getElementById("answerFrame");
  	var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
  	var table =innerDoc.getElementById("imagesTable");
+
  	table.innerHTML = "";
  	if(missing.length > 0)
 	{
@@ -381,6 +387,9 @@ function showAnswerImages(imageurls,imageIds,missing)
       var button =innerDoc.getElementById("commentButton");
       button.disabled=false;
 
+      div = innerDoc.getElementById("missing");  ///ye #asd ka pass like hain..so that is is called even if there is no images.hence red div display nahi hoga
+      div.style.display = "block";
+
 
     }
     if(global_type == 2) {
@@ -400,9 +409,10 @@ function showAnswerImages(imageurls,imageIds,missing)
       //button thing for type 2
       var button =innerDoc.getElementById("commentButton");
       button.disabled=true;
-
-
-    
+       //alert("display illa");
+      //missing div
+      div = innerDoc.getElementById("missing");
+      div.style.display = "none";
     }
     if(global_type == 3) {
       ip.style="width : 200px";
@@ -425,6 +435,10 @@ function showAnswerImages(imageurls,imageIds,missing)
       //button thing for type 2
       var button =innerDoc.getElementById("commentButton");
       button.disabled=false;
+      // missing div ko not show
+      alert("display illa");
+      div = innerDoc.getElementById("missing");
+      div.style.display = "none";
 
     }
     
@@ -656,7 +670,7 @@ function save(event)
  var divEmail = document.getElementById("evalEmailDiv").innerHTML;
  //alert(marks+" "+comments+" "+image_id+" ko update");
  xhr.open("GET","http://localhost/REAP/dataFetchingFiles/marks_comments.php?image_id="+
- image_id+"&eval_email="+divEmail+"&marks="+marks+"&comments="+comments+"&typeImages"+typeImages,true);
+ image_id+"&eval_email="+divEmail+"&marks="+marks+"&comments="+comments+"&typeImages="+typeImages,true);
  xhr.send();
 }
 
