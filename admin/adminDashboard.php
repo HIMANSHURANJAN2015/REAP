@@ -1,5 +1,5 @@
 <?php
-/*session_start();
+session_start();
 if(isset($_SESSION["name"]))
 {
   $name = $_SESSION["name"];
@@ -8,7 +8,7 @@ if(isset($_SESSION["name"]))
 else
 {
   header('Location:http://localhost/REAP/login.html');
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
