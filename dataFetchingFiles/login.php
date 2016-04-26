@@ -16,14 +16,14 @@ if($type == "Evaluator")
 }
 elseif ($type == "Student") 
 {
-	if(!$result = mysql_query("SELECT password from student where stud_email = '$email';"))
+	if(!$result = mysql_query("SELECT password, USN from student where stud_email = '$email';"))
 	{
 		die("Error : Could not query the database");
 	}	
 }
 elseif ($type == "Admin") 
 {
-	if(!$result = mysql_query("SELECT password from admin where admin_email = '$email';"))
+	if(!$result = mysql_query("SELECT password,admin_first_name,admin_last_name from admin where admin_email = '$email';"))
 	{
 		die("Error : Could not query the database");
 	}
@@ -32,25 +32,28 @@ $row = mysql_fetch_row($result);
 
 if($row[0] == $password)
 {
-	$_SESSION["name"] = $row[1] . " " . $row[2];
 	if($type == "Evaluator")
 	{
+		$_SESSION["name"] = $row[1] . " " . $row[2];
+		$_SESSION["email"] = $email;
 		header("Location:http://localhost/REAP/evaluator/evaluatorDashboard.php");
 	}
 	elseif($type == "Student")
 	{
-		header("Location:studentDashboard.php");
+		$_SESSION["USN"] = $row[1];
+		header("Location:http://localhost/REAP/student/studentDashboard.php");
 	}
 	elseif($type == "Admin")
 	{
-		header("Location:adminDashboard.php");
+		$_SESSION["name"] = $row[1] . " " . $row[2];
+		$_SESSION["email"] = $email;
+		header("Location:http://localhost/REAP/admin/adminDashboard.php");
 	}
   	
 }
 else
-{
-	die("Error : The email address and password do not match, please try again.  In case you forgot your
-		password click on Forgot Password to reset your password");
+{	
+	header("Location:http://localhost/REAP/login.html");
 }
 
 ?>

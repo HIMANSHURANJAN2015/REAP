@@ -1,5 +1,5 @@
 <?php
-/*session_start();
+session_start();
 if(isset($_SESSION["name"]))
 {
 	$name = $_SESSION["name"];
@@ -8,7 +8,7 @@ if(isset($_SESSION["name"]))
 else
 {
 	header('Location:http://localhost/REAP/login.html');
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +49,7 @@ else
 	</div>
 	<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><?php echo $name; ?></a></li>
+				<!--<li><a href="#"><?php echo $name; ?></a></li>-->
 				<li><a href="http://localhost/REAP/login.html" onclick = "session_destroy()">LogOut</a></li>
 			</ul>
 	</div>
